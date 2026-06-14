@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ATS Profile Analysis"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvOverallScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0%"
+            android:textSize="40sp"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/tvProfileStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile Status"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tvSkillsScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Skills Score: 0/20"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/tvEducationScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Education Score: 0/20"/>
+
+        <TextView
+            android:id="@+id/tvExperienceScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Experience Score: 0/20"/>
+
+        <TextView
+            android:id="@+id/tvResumeScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Resume Score: 0/20"/>
+
+        <TextView
+            android:id="@+id/tvContactScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact Score: 0/20"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recommendations"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/tvRecommendations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No recommendations"/>
+
+    </LinearLayout>
+
+</ScrollView>
