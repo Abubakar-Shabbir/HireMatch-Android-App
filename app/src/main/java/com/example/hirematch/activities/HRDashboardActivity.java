@@ -12,6 +12,7 @@ import com.example.hirematch.utils.SharedPrefManager;
 
 public class HRDashboardActivity extends AppCompatActivity {
 
+
     private Button btnCompanyProfile;
     private Button btnCreateJob;
     private Button btnMyJobs;
@@ -80,12 +81,16 @@ public class HRDashboardActivity extends AppCompatActivity {
 
         );
 
-        btnApplicants.setOnClickListener(v -> {
+        btnApplicants.setOnClickListener(v ->
 
-            // Sprint 6
-            // Applicants Screen
+                startActivity(
+                        new Intent(
+                                HRDashboardActivity.this,
+                                ApplicantsActivity.class
+                        )
+                )
 
-        });
+        );
 
         btnLogout.setOnClickListener(v -> {
 
