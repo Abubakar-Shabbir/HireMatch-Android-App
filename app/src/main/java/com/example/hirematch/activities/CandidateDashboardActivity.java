@@ -17,6 +17,7 @@ public class CandidateDashboardActivity extends AppCompatActivity {
     private Button btnResume;
     private Button btnATS;
     private Button btnJobs;
+    private Button btnMyApplications;
     private Button btnLogout;
 
     @Override
@@ -30,11 +31,25 @@ public class CandidateDashboardActivity extends AppCompatActivity {
 
     private void initViews() {
 
-        btnProfile = findViewById(R.id.btnProfile);
-        btnResume = findViewById(R.id.btnResume);
-        btnATS = findViewById(R.id.btnATS);
-        btnJobs = findViewById(R.id.btnJobs);
-        btnLogout = findViewById(R.id.btnLogout);
+        btnProfile =
+                findViewById(R.id.btnProfile);
+
+        btnResume =
+                findViewById(R.id.btnResume);
+
+        btnATS =
+                findViewById(R.id.btnATS);
+
+        btnJobs =
+                findViewById(R.id.btnJobs);
+
+        btnMyApplications =
+                findViewById(
+                        R.id.btnMyApplications
+                );
+
+        btnLogout =
+                findViewById(R.id.btnLogout);
     }
 
     private void setupListeners() {
@@ -72,11 +87,27 @@ public class CandidateDashboardActivity extends AppCompatActivity {
 
         );
 
-        btnJobs.setOnClickListener(v -> {
+        btnJobs.setOnClickListener(v ->
 
-            // Sprint 3 me Jobs Screen open hogi
+                startActivity(
+                        new Intent(
+                                CandidateDashboardActivity.this,
+                                JobListingActivity.class
+                        )
+                )
 
-        });
+        );
+
+        btnMyApplications.setOnClickListener(v ->
+
+                startActivity(
+                        new Intent(
+                                CandidateDashboardActivity.this,
+                                MyApplicationsActivity.class
+                        )
+                )
+
+        );
 
         btnLogout.setOnClickListener(v -> {
 
