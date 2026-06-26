@@ -2,57 +2,88 @@ package com.example.hirematch.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hirematch.R;
-import com.example.hirematch.utils.SharedPrefManager;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private ImageView imgLogo;
+    private ImageView imgBriefcase;
+    private TextView tvAppName;
+    private TextView tvTagline;
+    private TextView tvLoading;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_splash);
 
-        SharedPrefManager pref =
-                new SharedPrefManager(this);
+        initViews();
+        startAnimations();
 
-        if(pref.isLoggedIn()) {
-
-            String role = pref.getRole();
-
-            if("candidate".equals(role)) {
-
-                startActivity(
-                        new Intent(
-                                this,
-                                CandidateDashboardActivity.class
-                        )
-                );
-
-            } else {
-
-                startActivity(
-                        new Intent(
-                                this,
-                                HRDashboardActivity.class
-                        )
-                );
-            }
-
-        } else {
+        new Handler().postDelayed(() -> {
 
             startActivity(
                     new Intent(
-                            this,
+                            SplashActivity.this,
                             LoginActivity.class
                     )
             );
-        }
 
-        finish();
+            finish();
+
+        }, 3500);
+    }
+
+    private void initViews() {
+
+        imgLogo =
+                findViewById(R.id.imgLogo);
+
+        imgBriefcase =
+                findViewById(R.id.imgBriefcase);
+
+        tvAppName =
+                findViewById(R.id.tvAppName);
+
+        tvTagline =
+                findViewById(R.id.tvTagline);
+
+        tvLoading =
+                findViewById(R.id.tvLoading);
+    }
+
+    private void startAnimations() {
+
+        Animation fadeIn =
+                AnimationUtils.loadAnimation(
+                        this,
+                        R.anim.fade_in
+                );
+
+        Animation slideUp =
+                AnimationUtils.loadAnimation(
+                        this,
+                        R.anim.slide_up
+                );
+
+        Animation scaleIn =
+                AnimationUtils.loadAnimation(
+                        this,
+                        R.anim.scale_in
+                );
+
+        imgLogo.startAnimation(scaleIn);
+        tvAppName.startAnimation(fadeIn);
+        tvTagline.startAnimation(fadeIn);
+        imgBriefcase.startAnimation(slideUp);
+        tvLoading.startAnimation(slideUp);
     }
 }
