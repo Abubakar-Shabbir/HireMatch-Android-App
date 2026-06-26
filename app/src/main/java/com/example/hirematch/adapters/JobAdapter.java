@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hirematch.R;
+import com.example.hirematch.activities.ApplicantsActivity;
 import com.example.hirematch.activities.EditJobActivity;
 import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.models.Job;
@@ -21,12 +22,12 @@ import java.util.List;
 public class JobAdapter
         extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
 
-
     private Context context;
     private List<Job> jobList;
 
-    public JobAdapter(Context context,
-                      List<Job> jobList) {
+    public JobAdapter(
+            Context context,
+            List<Job> jobList) {
 
         this.context = context;
         this.jobList = jobList;
@@ -39,12 +40,13 @@ public class JobAdapter
             int viewType) {
 
         View view =
-                LayoutInflater.from(parent.getContext())
-                        .inflate(
-                                R.layout.item_job,
-                                parent,
-                                false
-                        );
+                LayoutInflater.from(
+                        parent.getContext()
+                ).inflate(
+                        R.layout.item_job,
+                        parent,
+                        false
+                );
 
         return new JobViewHolder(view);
     }
@@ -56,16 +58,21 @@ public class JobAdapter
 
         Job job = jobList.get(position);
 
-        holder.tvTitle.setText(job.getTitle());
+        holder.tvTitle.setText(
+                job.getTitle()
+        );
 
         holder.tvLocation.setText(
-                "Location: " + job.getLocation()
+                "Location: " +
+                        job.getLocation()
         );
 
         holder.tvSalary.setText(
-                "Salary: " + job.getSalary()
+                "Salary: " +
+                        job.getSalary()
         );
 
+        // Edit Job
         holder.btnEdit.setOnClickListener(v -> {
 
             Intent intent =
@@ -82,23 +89,45 @@ public class JobAdapter
             context.startActivity(intent);
         });
 
+        // Delete Job
         holder.btnDelete.setOnClickListener(v -> {
 
             FirebaseManager.getFirestore()
                     .collection("jobs")
-                    .document(job.getJobId())
+                    .document(
+                            job.getJobId()
+                    )
                     .delete()
                     .addOnSuccessListener(unused -> {
 
                         jobList.remove(position);
 
-                        notifyItemRemoved(position);
+                        notifyItemRemoved(
+                                position
+                        );
 
                         notifyItemRangeChanged(
                                 position,
                                 jobList.size()
                         );
                     });
+        });
+
+        // View Applicants (click whole card)
+        holder.itemView.setOnClickListener(v -> {
+
+            Intent intent =
+                    new Intent(
+                            context,
+                            ApplicantsActivity.class
+                    );
+
+            intent.putExtra(
+                    "jobId",
+                    job.getJobId()
+            );
+
+            context.startActivity(intent);
         });
     }
 

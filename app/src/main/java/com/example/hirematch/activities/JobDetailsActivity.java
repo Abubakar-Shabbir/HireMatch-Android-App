@@ -48,14 +48,26 @@ public class JobDetailsActivity extends AppCompatActivity {
 
     private void initViews() {
 
-        tvTitle = findViewById(R.id.tvTitle);
-        tvDescription = findViewById(R.id.tvDescription);
-        tvSkills = findViewById(R.id.tvSkills);
-        tvExperience = findViewById(R.id.tvExperience);
-        tvLocation = findViewById(R.id.tvLocation);
-        tvSalary = findViewById(R.id.tvSalary);
+        tvTitle =
+                findViewById(R.id.tvTitle);
 
-        btnApply = findViewById(R.id.btnApply);
+        tvDescription =
+                findViewById(R.id.tvDescription);
+
+        tvSkills =
+                findViewById(R.id.tvSkills);
+
+        tvExperience =
+                findViewById(R.id.tvExperience);
+
+        tvLocation =
+                findViewById(R.id.tvLocation);
+
+        tvSalary =
+                findViewById(R.id.tvSalary);
+
+        btnApply =
+                findViewById(R.id.btnApply);
     }
 
     private void loadJob(String jobId) {
@@ -124,13 +136,19 @@ public class JobDetailsActivity extends AppCompatActivity {
                 .addOnSuccessListener(document -> {
 
                     String name =
-                            document.getString("name");
+                            document.getString(
+                                    "name"
+                            );
 
                     String email =
-                            document.getString("email");
+                            document.getString(
+                                    "email"
+                            );
 
                     String candidateSkills =
-                            document.getString("skills");
+                            document.getString(
+                                    "skills"
+                            );
 
                     String jobSkills =
                             currentJob.getSkills();
@@ -144,6 +162,7 @@ public class JobDetailsActivity extends AppCompatActivity {
                     Application application =
                             new Application(
                                     applicationId,
+                                    currentJob.getTitle(),
                                     jobId,
                                     candidateId,
                                     currentJob.getHrId(),
@@ -193,7 +212,8 @@ public class JobDetailsActivity extends AppCompatActivity {
 
         int matched = 0;
 
-        for (String jobSkill : jobArray) {
+        for (String jobSkill :
+                jobArray) {
 
             for (String candidateSkill :
                     candidateArray) {

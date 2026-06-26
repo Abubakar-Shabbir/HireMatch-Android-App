@@ -1,16 +1,23 @@
 package com.example.hirematch.activities;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.example.hirematch.R;
 import com.example.hirematch.firebase.FirebaseManager;
+import com.example.hirematch.models.Notification;
 import com.example.hirematch.utils.SharedPrefManager;
+import com.google.firebase.firestore.DocumentChange;
 
-public class CandidateDashboardActivity extends AppCompatActivity {
+public class CandidateDashboardActivity
+        extends AppCompatActivity {
 
 
     private Button btnProfile;
@@ -18,7 +25,11 @@ public class CandidateDashboardActivity extends AppCompatActivity {
     private Button btnATS;
     private Button btnJobs;
     private Button btnMyApplications;
+    private Button btnNotifications;
     private Button btnLogout;
+
+    private static final String CHANNEL_ID =
+            "hirematch_notifications";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +38,9 @@ public class CandidateDashboardActivity extends AppCompatActivity {
 
         initViews();
         setupListeners();
+        createNotificationChannel();
+        loadUnreadCount();
+        listenForRealtimeNotifications();
     }
 
     private void initViews() {
@@ -44,9 +58,10 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                 findViewById(R.id.btnJobs);
 
         btnMyApplications =
-                findViewById(
-                        R.id.btnMyApplications
-                );
+                findViewById(R.id.btnMyApplications);
+
+        btnNotifications =
+                findViewById(R.id.btnNotifications);
 
         btnLogout =
                 findViewById(R.id.btnLogout);
@@ -62,7 +77,6 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                                 CandidateProfileActivity.class
                         )
                 )
-
         );
 
         btnResume.setOnClickListener(v ->
@@ -73,7 +87,6 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                                 UploadResumeActivity.class
                         )
                 )
-
         );
 
         btnATS.setOnClickListener(v ->
@@ -84,7 +97,6 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                                 ATSScoreActivity.class
                         )
                 )
-
         );
 
         btnJobs.setOnClickListener(v ->
@@ -95,7 +107,6 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                                 JobListingActivity.class
                         )
                 )
-
         );
 
         btnMyApplications.setOnClickListener(v ->
@@ -106,7 +117,16 @@ public class CandidateDashboardActivity extends AppCompatActivity {
                                 MyApplicationsActivity.class
                         )
                 )
+        );
 
+        btnNotifications.setOnClickListener(v ->
+
+                startActivity(
+                        new Intent(
+                                CandidateDashboardActivity.this,
+                                NotificationsActivity.class
+                        )
+                )
         );
 
         btnLogout.setOnClickListener(v -> {
@@ -127,6 +147,135 @@ public class CandidateDashboardActivity extends AppCompatActivity {
 
             finish();
         });
+    }
+
+    private void loadUnreadCount() {
+
+        String userId =
+                FirebaseManager.getAuth()
+                        .getCurrentUser()
+                        .getUid();
+
+        FirebaseManager.getFirestore()
+                .collection("notifications")
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("isRead", false)
+                .get()
+                .addOnSuccessListener(query -> {
+
+                    int count = query.size();
+
+                    btnNotifications.setText(
+                            "🔔 Notifications (" +
+                                    count + ")"
+                    );
+                });
+    }
+
+    private void listenForRealtimeNotifications() {
+
+        String userId =
+                FirebaseManager.getAuth()
+                        .getCurrentUser()
+                        .getUid();
+
+        FirebaseManager.getFirestore()
+                .collection("notifications")
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("isRead", false)
+                .addSnapshotListener((value, error) -> {
+
+                    if (value == null)
+                        return;
+
+                    for (DocumentChange dc :
+                            value.getDocumentChanges()) {
+
+                        if (dc.getType() ==
+                                DocumentChange.Type.ADDED) {
+
+                            Notification notification =
+                                    dc.getDocument()
+                                            .toObject(
+                                                    Notification.class
+                                            );
+
+                            showLocalNotification(
+                                    notification.getTitle(),
+                                    notification.getMessage()
+                            );
+
+                            FirebaseManager.getFirestore()
+                                    .collection("notifications")
+                                    .document(
+                                            notification.getNotificationId()
+                                    )
+                                    .update(
+                                            "isRead",
+                                            true
+                                    );
+
+                            loadUnreadCount();
+                        }
+                    }
+                });
+    }
+
+    private void showLocalNotification(
+            String title,
+            String message) {
+
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(
+                        this,
+                        CHANNEL_ID
+                )
+                        .setSmallIcon(
+                                R.mipmap.ic_launcher
+                        )
+                        .setContentTitle(title)
+                        .setContentText(message)
+                        .setPriority(
+                                NotificationCompat.PRIORITY_HIGH
+                        )
+                        .setAutoCancel(true);
+
+        NotificationManager manager =
+                (NotificationManager)
+                        getSystemService(
+                                NOTIFICATION_SERVICE
+                        );
+
+        manager.notify(
+                (int) System.currentTimeMillis(),
+                builder.build()
+        );
+    }
+
+    private void createNotificationChannel() {
+
+        if (Build.VERSION.SDK_INT >=
+                Build.VERSION_CODES.O) {
+
+            NotificationChannel channel =
+                    new NotificationChannel(
+                            CHANNEL_ID,
+                            "HireMatch Notifications",
+                            NotificationManager.IMPORTANCE_HIGH
+                    );
+
+            NotificationManager manager =
+                    getSystemService(
+                            NotificationManager.class
+                    );
+
+            if (manager != null) {
+
+                manager.createNotificationChannel(
+                        channel
+                );
+            }
+        }
     }
 
 

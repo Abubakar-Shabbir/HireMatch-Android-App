@@ -24,15 +24,18 @@ public class ApplicantsActivity extends AppCompatActivity {
     private ArrayList<Application> applicantList;
     private ApplicantAdapter adapter;
 
+    private String jobId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applicants);
 
+        jobId =
+                getIntent().getStringExtra("jobId");
+
         rvApplicants =
-                findViewById(
-                        R.id.rvApplicants
-                );
+                findViewById(R.id.rvApplicants);
 
         applicantList =
                 new ArrayList<>();
@@ -61,17 +64,15 @@ public class ApplicantsActivity extends AppCompatActivity {
 
         FirebaseManager.getFirestore()
                 .collection("applications")
-                .whereEqualTo(
-                        "hrId",
-                        hrId
-                )
+                .whereEqualTo("hrId", hrId)
+                .whereEqualTo("jobId", jobId)
                 .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
+                .addOnSuccessListener(query -> {
 
                     applicantList.clear();
 
                     for (DocumentSnapshot doc :
-                            queryDocumentSnapshots.getDocuments()) {
+                            query.getDocuments()) {
 
                         Application application =
                                 doc.toObject(
@@ -80,35 +81,27 @@ public class ApplicantsActivity extends AppCompatActivity {
 
                         if (application != null) {
 
+                            application.setApplicationId(
+                                    doc.getId()
+                            );
+
                             applicantList.add(
                                     application
                             );
                         }
                     }
 
-                    sortApplicantsByATS();
+                    Collections.sort(
+                            applicantList,
+                            (a1, a2) ->
+                                    Integer.compare(
+                                            a2.getAtsScore(),
+                                            a1.getAtsScore()
+                                    )
+                    );
 
                     adapter.notifyDataSetChanged();
                 });
-    }
-
-    private void sortApplicantsByATS() {
-
-        Collections.sort(
-                applicantList,
-                new Comparator<Application>() {
-                    @Override
-                    public int compare(
-                            Application a1,
-                            Application a2) {
-
-                        return Integer.compare(
-                                a2.getAtsScore(),
-                                a1.getAtsScore()
-                        );
-                    }
-                }
-        );
     }
 
 

@@ -13,8 +13,10 @@ import com.example.hirematch.R;
 import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.utils.SharedPrefManager;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class LoginActivity extends AppCompatActivity {
+
 
     EditText etEmail, etPassword;
     Button btnLogin;
@@ -70,17 +72,17 @@ public class LoginActivity extends AppCompatActivity {
                 )
                 .addOnCompleteListener(task -> {
 
-                    if(task.isSuccessful()) {
+                    if (task.isSuccessful()) {
 
                         FirebaseUser user =
                                 FirebaseManager
                                         .getAuth()
                                         .getCurrentUser();
 
-                        if(user == null)
+                        if (user == null)
                             return;
 
-                        if(!user.isEmailVerified()) {
+                        if (!user.isEmailVerified()) {
 
                             Toast.makeText(
                                     this,
@@ -95,7 +97,8 @@ public class LoginActivity extends AppCompatActivity {
                             return;
                         }
 
-                        String uid = user.getUid();
+                        String uid =
+                                user.getUid();
 
                         FirebaseManager
                                 .getFirestore()
@@ -112,7 +115,22 @@ public class LoginActivity extends AppCompatActivity {
 
                                     pref.saveUser(uid, role);
 
-                                    if("candidate"
+                                    // Save FCM Token
+                                    FirebaseMessaging.getInstance()
+                                            .getToken()
+                                            .addOnSuccessListener(token -> {
+
+                                                FirebaseManager
+                                                        .getFirestore()
+                                                        .collection("users")
+                                                        .document(uid)
+                                                        .update(
+                                                                "fcmToken",
+                                                                token
+                                                        );
+                                            });
+
+                                    if ("candidate"
                                             .equals(role)) {
 
                                         startActivity(
@@ -145,4 +163,5 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
 }

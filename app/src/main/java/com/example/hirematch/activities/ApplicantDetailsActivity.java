@@ -3,12 +3,14 @@ package com.example.hirematch.activities;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hirematch.R;
 import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.models.Application;
+import com.example.hirematch.models.Notification;
 
 public class ApplicantDetailsActivity extends AppCompatActivity {
 
@@ -21,20 +23,38 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
     private Button btnReject;
 
     private String applicationId;
+    private Application currentApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applicant_details);
 
-        initViews();
-
         applicationId =
                 getIntent().getStringExtra(
                         "applicationId"
                 );
 
+        initViews();
         loadApplicant();
+    }
+
+    private void initViews() {
+
+        tvCandidateName =
+                findViewById(R.id.tvCandidateName);
+
+        tvEmail =
+                findViewById(R.id.tvEmail);
+
+        tvATSScore =
+                findViewById(R.id.tvATSScore);
+
+        btnShortlist =
+                findViewById(R.id.btnShortlist);
+
+        btnReject =
+                findViewById(R.id.btnReject);
 
         btnShortlist.setOnClickListener(v ->
                 updateStatus("Shortlisted")
@@ -45,34 +65,6 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         );
     }
 
-    private void initViews() {
-
-        tvCandidateName =
-                findViewById(
-                        R.id.tvCandidateName
-                );
-
-        tvEmail =
-                findViewById(
-                        R.id.tvEmail
-                );
-
-        tvATSScore =
-                findViewById(
-                        R.id.tvATSScore
-                );
-
-        btnShortlist =
-                findViewById(
-                        R.id.btnShortlist
-                );
-
-        btnReject =
-                findViewById(
-                        R.id.btnReject
-                );
-    }
-
     private void loadApplicant() {
 
         FirebaseManager.getFirestore()
@@ -81,31 +73,34 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(document -> {
 
-                    Application application =
+                    currentApplication =
                             document.toObject(
                                     Application.class
                             );
 
-                    if (application != null) {
+                    if (currentApplication != null) {
+
+                        currentApplication.setApplicationId(
+                                document.getId()
+                        );
 
                         tvCandidateName.setText(
-                                application.getCandidateName()
+                                currentApplication.getCandidateName()
                         );
 
                         tvEmail.setText(
-                                application.getCandidateEmail()
+                                currentApplication.getCandidateEmail()
                         );
 
                         tvATSScore.setText(
                                 "ATS Score: " +
-                                        application.getAtsScore() + "%"
+                                        currentApplication.getAtsScore() + "%"
                         );
                     }
                 });
     }
 
-    private void updateStatus(
-            String status) {
+    private void updateStatus(String status) {
 
         FirebaseManager.getFirestore()
                 .collection("applications")
@@ -113,7 +108,48 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
                 .update(
                         "applicationStatus",
                         status
+                )
+                .addOnSuccessListener(unused -> {
+
+                    createNotification(status);
+
+                    Toast.makeText(
+                            this,
+                            "Status Updated Successfully",
+                            Toast.LENGTH_SHORT
+                    ).show();
+
+                    finish();
+                });
+    }
+
+    private void createNotification(String status) {
+
+        String notificationId =
+                FirebaseManager.getFirestore()
+                        .collection("notifications")
+                        .document()
+                        .getId();
+
+        Notification notification =
+                new Notification(
+                        notificationId,
+                        currentApplication.getCandidateId(),
+                        "Application Update",
+                        "Your application for " +
+                                currentApplication.getJobTitle() +
+                                " has been " + status,
+                        status.toLowerCase(),
+                        false,
+                        String.valueOf(
+                                System.currentTimeMillis()
+                        )
                 );
+
+        FirebaseManager.getFirestore()
+                .collection("notifications")
+                .document(notificationId)
+                .set(notification);
     }
 
 

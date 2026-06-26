@@ -19,7 +19,6 @@ import java.util.List;
 public class ApplicantAdapter
         extends RecyclerView.Adapter<ApplicantAdapter.ApplicantViewHolder> {
 
-
     private Context context;
     private List<Application> applicantList;
 
@@ -56,8 +55,18 @@ public class ApplicantAdapter
         Application application =
                 applicantList.get(position);
 
+        String candidateName =
+                application.getCandidateName();
+
+        if (candidateName == null ||
+                candidateName.isEmpty()) {
+
+            candidateName =
+                    "Anonymous Candidate";
+        }
+
         holder.tvCandidateName.setText(
-                application.getCandidateName()
+                candidateName
         );
 
         holder.tvATSScore.setText(
@@ -101,6 +110,7 @@ public class ApplicantAdapter
 
         public ApplicantViewHolder(
                 @NonNull View itemView) {
+
             super(itemView);
 
             tvCandidateName =
@@ -119,6 +129,4 @@ public class ApplicantAdapter
                     );
         }
     }
-
-
 }

@@ -17,7 +17,6 @@ import java.util.List;
 public class ApplicationAdapter
         extends RecyclerView.Adapter<ApplicationAdapter.ApplicationViewHolder> {
 
-
     private Context context;
     private List<Application> applicationList;
 
@@ -55,8 +54,7 @@ public class ApplicationAdapter
                 applicationList.get(position);
 
         holder.tvJobTitle.setText(
-                "Job ID: " +
-                        application.getJobId()
+                application.getJobTitle()
         );
 
         holder.tvStatus.setText(
@@ -64,9 +62,9 @@ public class ApplicationAdapter
                         application.getApplicationStatus()
         );
 
-        holder.tvAppliedAt.setText(
-                "Applied At: " +
-                        application.getAppliedAt()
+        holder.tvATSScore.setText(
+                "ATS Score: " +
+                        application.getAtsScore() + "%"
         );
     }
 
@@ -80,10 +78,11 @@ public class ApplicationAdapter
 
         TextView tvJobTitle;
         TextView tvStatus;
-        TextView tvAppliedAt;
+        TextView tvATSScore;
 
         public ApplicationViewHolder(
                 @NonNull View itemView) {
+
             super(itemView);
 
             tvJobTitle =
@@ -96,12 +95,10 @@ public class ApplicationAdapter
                             R.id.tvStatus
                     );
 
-            tvAppliedAt =
+            tvATSScore =
                     itemView.findViewById(
-                            R.id.tvAppliedAt
+                            R.id.tvATSScore
                     );
         }
     }
-
-
 }

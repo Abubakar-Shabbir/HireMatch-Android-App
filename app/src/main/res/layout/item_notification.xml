@@ -7,29 +7,25 @@
     android:padding="16dp"
     android:layout_marginBottom="10dp">
 
+    ```
     <TextView
-        android:id="@+id/tvJobTitle"
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/tvStatus"
+        android:id="@+id/tvMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"/>
 
     <TextView
-        android:id="@+id/tvATSScore"
+        android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp" />
-
-    <TextView
-        android:id="@+id/tvAppliedAt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"/>
+    ```
 
 </LinearLayout>

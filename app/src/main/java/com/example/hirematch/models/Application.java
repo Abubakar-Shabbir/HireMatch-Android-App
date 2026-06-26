@@ -2,7 +2,9 @@ package com.example.hirematch.models;
 
 public class Application {
 
+
     private String applicationId;
+    private String jobTitle;
     private String jobId;
     private String candidateId;
     private String hrId;
@@ -17,6 +19,7 @@ public class Application {
 
     public Application(
             String applicationId,
+            String jobTitle,
             String jobId,
             String candidateId,
             String hrId,
@@ -27,6 +30,7 @@ public class Application {
             int atsScore) {
 
         this.applicationId = applicationId;
+        this.jobTitle = jobTitle;
         this.jobId = jobId;
         this.candidateId = candidateId;
         this.hrId = hrId;
@@ -39,6 +43,18 @@ public class Application {
 
     public String getApplicationId() {
         return applicationId;
+    }
+
+    public void setApplicationId(String applicationId) {
+        this.applicationId = applicationId;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
     }
 
     public String getJobId() {
@@ -72,4 +88,6 @@ public class Application {
     public int getAtsScore() {
         return atsScore;
     }
+
+
 }

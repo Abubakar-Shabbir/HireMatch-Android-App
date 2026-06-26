@@ -16,14 +16,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HireMatch">
 
-        <!-- Splash Screen -->
+        <!-- FCM Service -->
+        <service
+            android:name=".services.MyFirebaseMessagingService"
+            android:exported="false">
+
+            <intent-filter>
+                <action
+                    android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+
+        </service>
+
+        <!-- Splash -->
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action
+                    android:name="android.intent.action.MAIN" />
+
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
         </activity>
@@ -63,7 +78,11 @@
             android:name=".activities.ATSScoreActivity"
             android:exported="false" />
 
-        <!-- Candidate Job Module -->
+        <activity
+            android:name=".activities.NotificationsActivity"
+            android:exported="false" />
+
+        <!-- Candidate Jobs -->
         <activity
             android:name=".activities.JobListingActivity"
             android:exported="false" />
@@ -99,6 +118,15 @@
 
         <activity
             android:name=".activities.EditJobActivity"
+            android:exported="false" />
+
+        <!-- Applicant Management -->
+        <activity
+            android:name=".activities.ApplicantsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.ApplicantDetailsActivity"
             android:exported="false" />
 
     </application>
