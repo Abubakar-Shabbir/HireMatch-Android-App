@@ -25,6 +25,7 @@ public class EditJobActivity extends AppCompatActivity {
 
     private String jobId;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

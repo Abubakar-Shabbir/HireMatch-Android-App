@@ -19,12 +19,12 @@ import com.google.firebase.firestore.DocumentChange;
 public class CandidateDashboardActivity
         extends AppCompatActivity {
 
-
     private Button btnProfile;
     private Button btnResume;
     private Button btnATS;
     private Button btnJobs;
     private Button btnMyApplications;
+    private Button btnMyInterviews;
     private Button btnNotifications;
     private Button btnLogout;
 
@@ -60,6 +60,9 @@ public class CandidateDashboardActivity
         btnMyApplications =
                 findViewById(R.id.btnMyApplications);
 
+        btnMyInterviews =
+                findViewById(R.id.btnMyInterviews);
+
         btnNotifications =
                 findViewById(R.id.btnNotifications);
 
@@ -70,60 +73,63 @@ public class CandidateDashboardActivity
     private void setupListeners() {
 
         btnProfile.setOnClickListener(v ->
-
                 startActivity(
                         new Intent(
-                                CandidateDashboardActivity.this,
+                                this,
                                 CandidateProfileActivity.class
                         )
                 )
         );
 
         btnResume.setOnClickListener(v ->
-
                 startActivity(
                         new Intent(
-                                CandidateDashboardActivity.this,
+                                this,
                                 UploadResumeActivity.class
                         )
                 )
         );
 
         btnATS.setOnClickListener(v ->
-
                 startActivity(
                         new Intent(
-                                CandidateDashboardActivity.this,
+                                this,
                                 ATSScoreActivity.class
                         )
                 )
         );
 
         btnJobs.setOnClickListener(v ->
-
                 startActivity(
                         new Intent(
-                                CandidateDashboardActivity.this,
+                                this,
                                 JobListingActivity.class
                         )
                 )
         );
 
         btnMyApplications.setOnClickListener(v ->
-
                 startActivity(
                         new Intent(
-                                CandidateDashboardActivity.this,
+                                this,
                                 MyApplicationsActivity.class
                         )
                 )
         );
 
-        btnNotifications.setOnClickListener(v ->
-
+        btnMyInterviews.setOnClickListener(v ->
                 startActivity(
                         new Intent(
-                                CandidateDashboardActivity.this,
+                                this,
+                                MyInterviewsActivity.class
+                        )
+                )
+        );
+
+        btnNotifications.setOnClickListener(v ->
+                startActivity(
+                        new Intent(
+                                this,
                                 NotificationsActivity.class
                         )
                 )
@@ -140,7 +146,7 @@ public class CandidateDashboardActivity
 
             startActivity(
                     new Intent(
-                            CandidateDashboardActivity.this,
+                            this,
                             LoginActivity.class
                     )
             );
@@ -270,13 +276,10 @@ public class CandidateDashboardActivity
                     );
 
             if (manager != null) {
-
                 manager.createNotificationChannel(
                         channel
                 );
             }
         }
     }
-
-
 }

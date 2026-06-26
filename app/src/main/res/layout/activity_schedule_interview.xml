@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Schedule Interview"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp" />
+
+        <EditText
+            android:id="@+id/etInterviewDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Interview Date (DD/MM/YYYY)"
+            android:layout_marginBottom="15dp" />
+
+        <EditText
+            android:id="@+id/etInterviewTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Interview Time (e.g. 4:00 PM)"
+            android:layout_marginBottom="15dp" />
+
+        <EditText
+            android:id="@+id/etMeetingLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Meeting Link (Google Meet / Zoom)"
+            android:layout_marginBottom="20dp" />
+
+        <Button
+            android:id="@+id/btnScheduleInterview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Schedule Interview" />
+
+    </LinearLayout>
+
+</ScrollView>

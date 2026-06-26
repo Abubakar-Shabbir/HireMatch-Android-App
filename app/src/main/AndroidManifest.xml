@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    ```
     <!-- Internet Permission -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -16,29 +14,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HireMatch">
 
-        <!-- FCM Service -->
+        <!-- Firebase Messaging Service -->
         <service
             android:name=".services.MyFirebaseMessagingService"
             android:exported="false">
 
             <intent-filter>
-                <action
-                    android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
 
         </service>
 
-        <!-- Splash -->
+        <!-- Splash Screen -->
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true">
 
             <intent-filter>
-                <action
-                    android:name="android.intent.action.MAIN" />
-
-                <category
-                    android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
         </activity>
@@ -99,6 +93,19 @@
             android:name=".activities.ApplicationDetailsActivity"
             android:exported="false" />
 
+        <!-- Interview Module -->
+        <activity
+            android:name=".activities.ScheduleInterviewActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.MyInterviewsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.InterviewDetailsActivity"
+            android:exported="false" />
+
         <!-- HR Module -->
         <activity
             android:name=".activities.HRDashboardActivity"
@@ -130,6 +137,5 @@
             android:exported="false" />
 
     </application>
-    ```
 
 </manifest>

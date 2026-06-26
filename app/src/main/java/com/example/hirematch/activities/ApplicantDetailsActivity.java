@@ -1,5 +1,6 @@
 package com.example.hirematch.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,7 +14,6 @@ import com.example.hirematch.models.Application;
 import com.example.hirematch.models.Notification;
 
 public class ApplicantDetailsActivity extends AppCompatActivity {
-
 
     private TextView tvCandidateName;
     private TextView tvEmail;
@@ -42,19 +42,29 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
     private void initViews() {
 
         tvCandidateName =
-                findViewById(R.id.tvCandidateName);
+                findViewById(
+                        R.id.tvCandidateName
+                );
 
         tvEmail =
-                findViewById(R.id.tvEmail);
+                findViewById(
+                        R.id.tvEmail
+                );
 
         tvATSScore =
-                findViewById(R.id.tvATSScore);
+                findViewById(
+                        R.id.tvATSScore
+                );
 
         btnShortlist =
-                findViewById(R.id.btnShortlist);
+                findViewById(
+                        R.id.btnShortlist
+                );
 
         btnReject =
-                findViewById(R.id.btnReject);
+                findViewById(
+                        R.id.btnReject
+                );
 
         btnShortlist.setOnClickListener(v ->
                 updateStatus("Shortlisted")
@@ -113,13 +123,51 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
 
                     createNotification(status);
 
-                    Toast.makeText(
-                            this,
-                            "Status Updated Successfully",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    if (status.equals("Shortlisted")) {
 
-                    finish();
+                        Intent intent =
+                                new Intent(
+                                        this,
+                                        ScheduleInterviewActivity.class
+                                );
+
+                        intent.putExtra(
+                                "applicationId",
+                                currentApplication.getApplicationId()
+                        );
+
+                        intent.putExtra(
+                                "candidateId",
+                                currentApplication.getCandidateId()
+                        );
+
+                        intent.putExtra(
+                                "jobId",
+                                currentApplication.getJobId()
+                        );
+
+                        intent.putExtra(
+                                "hrId",
+                                currentApplication.getHrId()
+                        );
+
+                        intent.putExtra(
+                                "jobTitle",
+                                currentApplication.getJobTitle()
+                        );
+
+                        startActivity(intent);
+
+                    } else {
+
+                        Toast.makeText(
+                                this,
+                                "Candidate Rejected",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+                        finish();
+                    }
                 });
     }
 
@@ -151,6 +199,4 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
                 .document(notificationId)
                 .set(notification);
     }
-
-
 }
