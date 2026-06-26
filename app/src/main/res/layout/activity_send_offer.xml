@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send Offer Letter"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp" />
+
+        <EditText
+            android:id="@+id/etSalary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Salary"
+            android:inputType="number"
+            android:layout_marginBottom="15dp" />
+
+        <EditText
+            android:id="@+id/etJoiningDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Joining Date (DD/MM/YYYY)"
+            android:layout_marginBottom="20dp" />
+
+        <Button
+            android:id="@+id/btnSendOffer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Send Offer" />
+
+    </LinearLayout>
+
+</ScrollView>

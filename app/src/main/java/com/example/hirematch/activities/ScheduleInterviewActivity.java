@@ -1,5 +1,6 @@
 package com.example.hirematch.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,6 @@ public class ScheduleInterviewActivity extends AppCompatActivity {
     private EditText etInterviewDate;
     private EditText etInterviewTime;
     private EditText etMeetingLink;
-
     private Button btnScheduleInterview;
 
     private String applicationId;
@@ -32,21 +32,7 @@ public class ScheduleInterviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_schedule_interview);
 
         initViews();
-
-        applicationId =
-                getIntent().getStringExtra("applicationId");
-
-        candidateId =
-                getIntent().getStringExtra("candidateId");
-
-        jobId =
-                getIntent().getStringExtra("jobId");
-
-        hrId =
-                getIntent().getStringExtra("hrId");
-
-        jobTitle =
-                getIntent().getStringExtra("jobTitle");
+        getIntentData();
 
         btnScheduleInterview.setOnClickListener(v ->
                 scheduleInterview()
@@ -68,19 +54,53 @@ public class ScheduleInterviewActivity extends AppCompatActivity {
                 findViewById(R.id.btnScheduleInterview);
     }
 
+    private void getIntentData() {
+
+        applicationId =
+                getIntent().getStringExtra("applicationId");
+
+        candidateId =
+                getIntent().getStringExtra("candidateId");
+
+        jobId =
+                getIntent().getStringExtra("jobId");
+
+        hrId =
+                getIntent().getStringExtra("hrId");
+
+        jobTitle =
+                getIntent().getStringExtra("jobTitle");
+    }
+
     private void scheduleInterview() {
 
         String date =
                 etInterviewDate.getText()
-                        .toString().trim();
+                        .toString()
+                        .trim();
 
         String time =
                 etInterviewTime.getText()
-                        .toString().trim();
+                        .toString()
+                        .trim();
 
         String meetingLink =
                 etMeetingLink.getText()
-                        .toString().trim();
+                        .toString()
+                        .trim();
+
+        if (date.isEmpty() ||
+                time.isEmpty() ||
+                meetingLink.isEmpty()) {
+
+            Toast.makeText(
+                    this,
+                    "Please fill all fields",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
 
         String interviewId =
                 FirebaseManager.getFirestore()
@@ -118,6 +138,19 @@ public class ScheduleInterviewActivity extends AppCompatActivity {
                             "Interview Scheduled Successfully",
                             Toast.LENGTH_LONG
                     ).show();
+
+                    Intent intent =
+                            new Intent(
+                                    ScheduleInterviewActivity.this,
+                                    InterviewDetailsActivity.class
+                            );
+
+                    intent.putExtra(
+                            "interviewId",
+                            interviewId
+                    );
+
+                    startActivity(intent);
 
                     finish();
                 });

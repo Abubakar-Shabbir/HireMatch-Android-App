@@ -1,6 +1,8 @@
 package com.example.hirematch.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -123,8 +125,34 @@ public class InterviewDetailsActivity extends AppCompatActivity {
                                 "Meeting Link: " +
                                         currentInterview.getMeetingLink()
                         );
+
+                        checkUserRole();
                     }
                 });
+    }
+
+    private void checkUserRole() {
+
+        String currentUserId =
+                FirebaseManager.getAuth()
+                        .getCurrentUser()
+                        .getUid();
+
+        if (currentInterview.getCandidateId()
+                .equals(currentUserId)) {
+
+            btnReschedule.setVisibility(
+                    View.GONE
+            );
+
+            btnComplete.setVisibility(
+                    View.GONE
+            );
+
+            btnCancel.setVisibility(
+                    View.GONE
+            );
+        }
     }
 
     private void updateInterviewStatus(String status) {
@@ -140,13 +168,46 @@ public class InterviewDetailsActivity extends AppCompatActivity {
 
                     createNotification(status);
 
-                    Toast.makeText(
-                            this,
-                            "Interview " + status,
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    if (status.equals("Completed")) {
 
-                    finish();
+                        Intent intent =
+                                new Intent(
+                                        InterviewDetailsActivity.this,
+                                        SendOfferActivity.class
+                                );
+
+                        intent.putExtra(
+                                "applicationId",
+                                currentInterview.getApplicationId()
+                        );
+
+                        intent.putExtra(
+                                "candidateId",
+                                currentInterview.getCandidateId()
+                        );
+
+                        intent.putExtra(
+                                "hrId",
+                                currentInterview.getHrId()
+                        );
+
+                        intent.putExtra(
+                                "jobTitle",
+                                currentInterview.getJobTitle()
+                        );
+
+                        startActivity(intent);
+
+                    } else {
+
+                        Toast.makeText(
+                                this,
+                                "Interview " + status,
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+                        finish();
+                    }
                 });
     }
 

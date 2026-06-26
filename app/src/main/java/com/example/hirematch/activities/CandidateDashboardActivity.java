@@ -25,6 +25,7 @@ public class CandidateDashboardActivity
     private Button btnJobs;
     private Button btnMyApplications;
     private Button btnMyInterviews;
+    private Button btnMyOffers;
     private Button btnNotifications;
     private Button btnLogout;
 
@@ -62,6 +63,9 @@ public class CandidateDashboardActivity
 
         btnMyInterviews =
                 findViewById(R.id.btnMyInterviews);
+
+        btnMyOffers =
+                findViewById(R.id.btnMyOffers);
 
         btnNotifications =
                 findViewById(R.id.btnNotifications);
@@ -122,6 +126,15 @@ public class CandidateDashboardActivity
                         new Intent(
                                 this,
                                 MyInterviewsActivity.class
+                        )
+                )
+        );
+
+        btnMyOffers.setOnClickListener(v ->
+                startActivity(
+                        new Intent(
+                                this,
+                                MyOffersActivity.class
                         )
                 )
         );
