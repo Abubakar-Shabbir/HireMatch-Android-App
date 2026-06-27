@@ -78,7 +78,7 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
             holder.tvStatus.setText("SCHEDULED");
             holder.tvStatus.setBackgroundResource(R.drawable.status_green);
 
-            holder.btnManageInterview.setText("Reschedule Interview");
+            holder.btnManageInterview.setText("Schedule");
 
             holder.btnCompleteInterview.setVisibility(View.VISIBLE);
             holder.btnRejectInterview.setVisibility(View.VISIBLE);

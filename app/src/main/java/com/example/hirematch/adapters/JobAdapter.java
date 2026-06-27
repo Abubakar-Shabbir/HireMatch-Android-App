@@ -71,64 +71,67 @@ public class JobAdapter
                 "Salary: " +
                         job.getSalary()
         );
-
-        // Edit Job
+// Edit
         holder.btnEdit.setOnClickListener(v -> {
 
-            Intent intent =
-                    new Intent(
-                            context,
-                            EditJobActivity.class
-                    );
-
-            intent.putExtra(
-                    "jobId",
-                    job.getJobId()
+            Intent intent = new Intent(
+                    context,
+                    EditJobActivity.class
             );
 
+            intent.putExtra("jobId", job.getJobId());
+
             context.startActivity(intent);
+
         });
 
-        // Delete Job
+
+// Delete
         holder.btnDelete.setOnClickListener(v -> {
 
             FirebaseManager.getFirestore()
                     .collection("jobs")
-                    .document(
-                            job.getJobId()
-                    )
+                    .document(job.getJobId())
                     .delete()
                     .addOnSuccessListener(unused -> {
 
                         jobList.remove(position);
 
-                        notifyItemRemoved(
-                                position
-                        );
+                        notifyItemRemoved(position);
 
                         notifyItemRangeChanged(
                                 position,
                                 jobList.size()
                         );
                     });
+
         });
 
-        // View Applicants (click whole card)
-        holder.itemView.setOnClickListener(v -> {
 
-            Intent intent =
-                    new Intent(
-                            context,
-                            ApplicantsActivity.class
-                    );
+// Review Applicants
+        holder.btnReviewApplicants.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    context,
+                    ApplicantsActivity.class
+            );
 
             intent.putExtra(
                     "jobId",
                     job.getJobId()
             );
 
+            intent.putExtra(
+                    "jobTitle",
+                    job.getTitle()
+            );
+
             context.startActivity(intent);
+
         });
+
+        // View Applicants (click whole card)
+
     }
 
     @Override
@@ -145,6 +148,7 @@ public class JobAdapter
 
         Button btnEdit;
         Button btnDelete;
+        Button btnReviewApplicants;
 
         public JobViewHolder(
                 @NonNull View itemView) {
@@ -174,6 +178,10 @@ public class JobAdapter
             btnDelete =
                     itemView.findViewById(
                             R.id.btnDelete
+                    );
+            btnReviewApplicants =
+                    itemView.findViewById(
+                            R.id.btnReviewApplicants
                     );
         }
     }

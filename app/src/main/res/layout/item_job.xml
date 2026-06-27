@@ -1,58 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/card_bg"
-    android:layout_marginBottom="12dp"
+    android:layout_marginBottom="14dp"
     android:clickable="true"
-    android:focusable="true">
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/primary" />
-
-    <TextView
-        android:id="@+id/tvLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp" />
-
-    <TextView
-        android:id="@+id/tvSalary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp" />
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="5dp"
+    app:cardBackgroundColor="@android:color/white"
+    app:strokeColor="#E8EAF0"
+    app:strokeWidth="1dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="12dp">
+        android:orientation="vertical"
+        android:padding="18dp">
 
-        <Button
-            android:id="@+id/btnEdit"
+        <!-- Job Title -->
+
+        <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit"
-            android:focusable="false"
-            android:clickable="true" />
+            android:text="Software Engineer"
+            android:textColor="@color/primary"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 
-        <Button
-            android:id="@+id/btnDelete"
+        <!-- Location -->
+
+        <TextView
+            android:id="@+id/tvLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Delete"
-            android:focusable="false"
-            android:clickable="true" />
+            android:layout_marginTop="8dp"
+            android:text="Lahore, Pakistan"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"/>
+
+        <!-- Salary -->
+
+        <TextView
+            android:id="@+id/tvSalary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="PKR 120,000 / Month"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"/>
+
+        <!-- Divider -->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="#ECECEC"/>
+
+        <!-- Buttons -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <!-- Hidden Edit Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEdit"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="0"
+                android:visibility="gone"
+                android:enabled="false"/>
+
+            <!-- Review Applicants -->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReviewApplicants"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Review Applicants"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                app:cornerRadius="14dp"
+                app:strokeColor="@color/primary"
+                app:strokeWidth="1.5dp"/>
+
+            <!-- Delete -->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDelete"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="0.8"
+                android:layout_marginStart="8dp"
+                android:text="Delete Job"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                app:backgroundTint="#D32F2F"
+                app:cornerRadius="14dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

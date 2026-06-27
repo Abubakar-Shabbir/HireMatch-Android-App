@@ -236,64 +236,94 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Action Buttons -->
             <Button
                 android:id="@+id/btnCreateJob"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
+                android:layout_height="56dp"
                 android:layout_marginTop="20dp"
-                android:text="Create New Job"
                 android:background="@drawable/button_primary"
-                android:textColor="@color/white"/>
+                android:backgroundTint="@null"
+                android:text="Create New Job"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:elevation="6dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"/>
 
             <Button
                 android:id="@+id/btnMyJobs"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginTop="10dp"
-                android:text="Manage Jobs"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/button_primary"
-                android:textColor="@color/white"/>
+                android:backgroundTint="@null"
+                android:text="Manage Jobs"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:elevation="6dp"/>
 
             <Button
                 android:id="@+id/btnApplicants"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginTop="10dp"
-                android:text="Review Applicants"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/button_primary"
-                android:textColor="@color/white"/>
+                android:backgroundTint="@null"
+                android:text="Review Applicants"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:elevation="6dp"/>
 
             <Button
                 android:id="@+id/btnInterviews"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginTop="10dp"
-                android:text="Manage Interviews"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/button_primary"
-                android:textColor="@color/white"/>
+                android:backgroundTint="@null"
+                android:text="Manage Interviews"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:elevation="6dp"/>
+
 
             <Button
                 android:id="@+id/btnOffers"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginTop="10dp"
-                android:text="Manage Offers"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/button_primary"
-                android:textColor="@color/white"/>
+                android:backgroundTint="@null"
+                android:text="Manage Offers"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:elevation="6dp"
+                android:visibility="gone"/>
 
             <!-- Better Logout -->
             <Button
                 android:id="@+id/btnLogout"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="35dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="30dp"
+                android:backgroundTint="#D32F2F"
                 android:text="Logout"
+                android:textAllCaps="false"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#D32F2F"/>
+                android:textColor="@android:color/white"
+                android:elevation="6dp"/>
 
         </LinearLayout>
 
