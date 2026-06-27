@@ -1,32 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Brand -->
     <color name="primary">#1F2937</color>
     <color name="primary_light">#374151</color>
     <color name="primary_dark">#111827</color>
 
-    <!-- Accent -->
     <color name="accent">#8B5E3C</color>
     <color name="accent_light">#A47148</color>
 
-    <!-- Background -->
     <color name="background">#F7F5F2</color>
     <color name="surface">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
 
-    <!-- Borders -->
     <color name="stroke">#E5E7EB</color>
     <color name="divider">#D1D5DB</color>
 
-    <!-- Text -->
     <color name="text_primary">#111827</color>
     <color name="text_secondary">#6B7280</color>
     <color name="text_light">#9CA3AF</color>
 
-    <!-- Status -->
     <color name="success">#15803D</color>
     <color name="warning">#D97706</color>
     <color name="danger">#DC2626</color>
     <color name="info">#2563EB</color>
+
+    <color name="statusGreen">#2E7D32</color>
+
+    <color name="statusRed">#D32F2F</color>
+
+    <color name="statusOrange">#F57C00</color>
 
 </resources>

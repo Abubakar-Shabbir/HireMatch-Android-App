@@ -1,6 +1,7 @@
 package com.example.hirematch.activities;
 
-import android.content.Intent;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,15 +14,23 @@ import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.models.Interview;
 import com.example.hirematch.models.Notification;
 
-public class ScheduleInterviewActivity extends AppCompatActivity {
+import java.util.Calendar;
+
+public class ScheduleInterviewActivity
+        extends AppCompatActivity {
 
     private EditText etInterviewDate;
     private EditText etInterviewTime;
+    private EditText etInterviewMode;
     private EditText etMeetingLink;
+    private EditText etLocation;
+    private EditText etNotes;
+
     private Button btnScheduleInterview;
 
     private String applicationId;
     private String candidateId;
+    private String candidateName;
     private String jobId;
     private String hrId;
     private String jobTitle;
@@ -33,6 +42,7 @@ public class ScheduleInterviewActivity extends AppCompatActivity {
 
         initViews();
         getIntentData();
+        setupPickers();
 
         btnScheduleInterview.setOnClickListener(v ->
                 scheduleInterview()
@@ -47,11 +57,71 @@ public class ScheduleInterviewActivity extends AppCompatActivity {
         etInterviewTime =
                 findViewById(R.id.etInterviewTime);
 
+        etInterviewMode =
+                findViewById(R.id.etInterviewMode);
+
         etMeetingLink =
                 findViewById(R.id.etMeetingLink);
 
+        etLocation =
+                findViewById(R.id.etLocation);
+
+        etNotes =
+                findViewById(R.id.etNotes);
+
         btnScheduleInterview =
                 findViewById(R.id.btnScheduleInterview);
+    }
+
+    private void setupPickers() {
+
+        etInterviewDate.setOnClickListener(v -> {
+
+            Calendar calendar =
+                    Calendar.getInstance();
+
+            DatePickerDialog datePickerDialog =
+                    new DatePickerDialog(
+                            this,
+                            (view, year, month, dayOfMonth) -> {
+
+                                String date =
+                                        dayOfMonth + "/" +
+                                                (month + 1) + "/" +
+                                                year;
+
+                                etInterviewDate.setText(date);
+                            },
+                            calendar.get(Calendar.YEAR),
+                            calendar.get(Calendar.MONTH),
+                            calendar.get(Calendar.DAY_OF_MONTH)
+                    );
+
+            datePickerDialog.show();
+        });
+
+        etInterviewTime.setOnClickListener(v -> {
+
+            Calendar calendar =
+                    Calendar.getInstance();
+
+            TimePickerDialog timePickerDialog =
+                    new TimePickerDialog(
+                            this,
+                            (view, hourOfDay, minute) -> {
+
+                                String time =
+                                        hourOfDay + ":" + minute;
+
+                                etInterviewTime.setText(time);
+                            },
+                            calendar.get(Calendar.HOUR_OF_DAY),
+                            calendar.get(Calendar.MINUTE),
+                            false
+                    );
+
+            timePickerDialog.show();
+        });
     }
 
     private void getIntentData() {
@@ -62,6 +132,9 @@ public class ScheduleInterviewActivity extends AppCompatActivity {
         candidateId =
                 getIntent().getStringExtra("candidateId");
 
+        candidateName =
+                getIntent().getStringExtra("candidateName");
+
         jobId =
                 getIntent().getStringExtra("jobId");
 
@@ -70,32 +143,49 @@ public class ScheduleInterviewActivity extends AppCompatActivity {
 
         jobTitle =
                 getIntent().getStringExtra("jobTitle");
+
+        if (applicationId == null ||
+                candidateId == null ||
+                hrId == null ||
+                jobTitle == null) {
+
+            Toast.makeText(
+                    this,
+                    "Missing interview data",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            finish();
+        }
     }
 
     private void scheduleInterview() {
 
-        String date =
-                etInterviewDate.getText()
-                        .toString()
-                        .trim();
+        String interviewDate =
+                etInterviewDate.getText().toString().trim();
 
-        String time =
-                etInterviewTime.getText()
-                        .toString()
-                        .trim();
+        String interviewTime =
+                etInterviewTime.getText().toString().trim();
+
+        String interviewMode =
+                etInterviewMode.getText().toString().trim();
 
         String meetingLink =
-                etMeetingLink.getText()
-                        .toString()
-                        .trim();
+                etMeetingLink.getText().toString().trim();
 
-        if (date.isEmpty() ||
-                time.isEmpty() ||
-                meetingLink.isEmpty()) {
+        String location =
+                etLocation.getText().toString().trim();
+
+        String notes =
+                etNotes.getText().toString().trim();
+
+        if (interviewDate.isEmpty() ||
+                interviewTime.isEmpty() ||
+                interviewMode.isEmpty()) {
 
             Toast.makeText(
                     this,
-                    "Please fill all fields",
+                    "Please fill required fields",
                     Toast.LENGTH_SHORT
             ).show();
 
@@ -114,12 +204,16 @@ public class ScheduleInterviewActivity extends AppCompatActivity {
                         applicationId,
                         jobId,
                         candidateId,
+                        candidateName,
                         hrId,
                         jobTitle,
-                        date,
-                        time,
-                        "Scheduled",
+                        interviewDate,
+                        interviewTime,
+                        interviewMode,
                         meetingLink,
+                        location,
+                        notes,
+                        "Scheduled",
                         String.valueOf(
                                 System.currentTimeMillis()
                         )
@@ -131,34 +225,29 @@ public class ScheduleInterviewActivity extends AppCompatActivity {
                 .set(interview)
                 .addOnSuccessListener(unused -> {
 
-                    createNotification(date, time);
+                    FirebaseManager.getFirestore()
+                            .collection("applications")
+                            .document(applicationId)
+                            .update(
+                                    "applicationStatus",
+                                    "Interview Scheduled",
+                                    "currentStage",
+                                    "Interview"
+                            );
+
+                    createNotification();
 
                     Toast.makeText(
                             this,
                             "Interview Scheduled Successfully",
-                            Toast.LENGTH_LONG
+                            Toast.LENGTH_SHORT
                     ).show();
-
-                    Intent intent =
-                            new Intent(
-                                    ScheduleInterviewActivity.this,
-                                    InterviewDetailsActivity.class
-                            );
-
-                    intent.putExtra(
-                            "interviewId",
-                            interviewId
-                    );
-
-                    startActivity(intent);
 
                     finish();
                 });
     }
 
-    private void createNotification(
-            String date,
-            String time) {
+    private void createNotification() {
 
         String notificationId =
                 FirebaseManager.getFirestore()
@@ -173,10 +262,7 @@ public class ScheduleInterviewActivity extends AppCompatActivity {
                         "Interview Scheduled",
                         "Your interview for " +
                                 jobTitle +
-                                " is scheduled on " +
-                                date +
-                                " at " +
-                                time,
+                                " has been scheduled.",
                         "interview",
                         false,
                         String.valueOf(

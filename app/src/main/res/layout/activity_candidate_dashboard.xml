@@ -1,89 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
-    ```
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="HireMatch"
-            android:textStyle="bold"
-            android:textSize="30sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome Candidate 👋"
-            android:textSize="18sp"
-            android:layout_marginBottom="25dp"/>
-
-        <Button
-            android:id="@+id/btnProfile"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="👤 My Profile"/>
-
-        <Button
-            android:id="@+id/btnResume"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="📄 Upload Resume"
-            android:layout_marginTop="10dp"/>
-
-        <Button
-            android:id="@+id/btnATS"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="📊 ATS Score"
-            android:layout_marginTop="10dp"/>
-
-        <Button
-            android:id="@+id/btnJobs"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="💼 Browse Jobs"
-            android:layout_marginTop="10dp"/>
-        <Button
-            android:id="@+id/btnMyApplications"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="📂 My Applications"
-            android:layout_marginTop="10dp"/>
-        <Button
-            android:id="@+id/btnMyInterviews"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="My Interviews"
-            android:layout_marginTop="10dp" />
-        <Button
-            android:id="@+id/btnMyOffers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="My Offers"
-            android:layout_marginTop="10dp" />
-        <Button
-            android:id="@+id/btnNotifications"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="🔔 Notifications"
-            android:layout_marginTop="10dp"/>
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="🚪 Logout"
-            android:layout_marginTop="25dp"/>
+            <!-- Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
 
-    </LinearLayout>
-    ```
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/hirematch_logo" />
 
-</ScrollView>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HireMatch"
+                        android:textColor="@color/primary"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCandidateName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Welcome"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnNotifications"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/button_primary"
+                    android:text="0" />
+
+            </LinearLayout>
+
+            <!-- Profile Card -->
+            <LinearLayout
+                android:id="@+id/btnProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/card_bg"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Profile Completion"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvProfileScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="0%"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <ProgressBar
+                    android:id="@+id/progressProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="12dp"
+                    android:max="100" />
+
+            </LinearLayout>
+
+            <!-- Row 1 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:id="@+id/btnMyApplications"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/card_bg"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvApplicationsCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Applications" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnMyInterviews"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/card_bg"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvInterviewsCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Interviews" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Row 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:id="@+id/btnMyOffers"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/card_bg"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvOffersCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Offers" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnATS"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/card_bg"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvATSScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ATS Score" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Actions -->
+            <Button
+                android:id="@+id/btnResume"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_primary"
+                android:text="Upload Resume" />
+
+            <Button
+                android:id="@+id/btnJobs"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_primary"
+                android:text="Browse Jobs" />
+
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/input_bg"
+                android:text="Logout" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

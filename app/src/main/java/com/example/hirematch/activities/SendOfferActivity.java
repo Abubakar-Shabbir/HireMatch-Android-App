@@ -12,10 +12,12 @@ import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.models.Notification;
 import com.example.hirematch.models.Offer;
 
-public class SendOfferActivity extends AppCompatActivity {
+public class SendOfferActivity
+        extends AppCompatActivity {
 
     private EditText etSalary;
     private EditText etJoiningDate;
+
     private Button btnSendOffer;
 
     private String applicationId;
@@ -29,6 +31,26 @@ public class SendOfferActivity extends AppCompatActivity {
         setContentView(R.layout.activity_send_offer);
 
         initViews();
+        getIntentData();
+
+        btnSendOffer.setOnClickListener(v ->
+                sendOffer()
+        );
+    }
+
+    private void initViews() {
+
+        etSalary =
+                findViewById(R.id.etSalary);
+
+        etJoiningDate =
+                findViewById(R.id.etJoiningDate);
+
+        btnSendOffer =
+                findViewById(R.id.btnSendOffer);
+    }
+
+    private void getIntentData() {
 
         applicationId =
                 getIntent().getStringExtra(
@@ -49,22 +71,6 @@ public class SendOfferActivity extends AppCompatActivity {
                 getIntent().getStringExtra(
                         "jobTitle"
                 );
-
-        btnSendOffer.setOnClickListener(v ->
-                sendOffer()
-        );
-    }
-
-    private void initViews() {
-
-        etSalary =
-                findViewById(R.id.etSalary);
-
-        etJoiningDate =
-                findViewById(R.id.etJoiningDate);
-
-        btnSendOffer =
-                findViewById(R.id.btnSendOffer);
     }
 
     private void sendOffer() {
@@ -78,6 +84,18 @@ public class SendOfferActivity extends AppCompatActivity {
                 etJoiningDate.getText()
                         .toString()
                         .trim();
+
+        if (salary.isEmpty() ||
+                joiningDate.isEmpty()) {
+
+            Toast.makeText(
+                    this,
+                    "Please fill all fields",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
 
         String offerId =
                 FirebaseManager.getFirestore()
@@ -106,7 +124,8 @@ public class SendOfferActivity extends AppCompatActivity {
                 .set(offer)
                 .addOnSuccessListener(unused -> {
 
-                    createNotification();
+                    updateApplicationStatus();
+                    createNotification(salary);
 
                     Toast.makeText(
                             this,
@@ -118,7 +137,19 @@ public class SendOfferActivity extends AppCompatActivity {
                 });
     }
 
-    private void createNotification() {
+    private void updateApplicationStatus() {
+
+        FirebaseManager.getFirestore()
+                .collection("applications")
+                .document(applicationId)
+                .update(
+                        "applicationStatus", "Offer Sent",
+                        "currentStage", "Offer",
+                        "offerStatus", "Pending"
+                );
+    }
+
+    private void createNotification(String salary) {
 
         String notificationId =
                 FirebaseManager.getFirestore()
@@ -131,8 +162,10 @@ public class SendOfferActivity extends AppCompatActivity {
                         notificationId,
                         candidateId,
                         "Offer Letter",
-                        "You received an offer for " +
-                                jobTitle,
+                        "You received an offer for "
+                                + jobTitle +
+                                " | Salary: " +
+                                salary,
                         "offer",
                         false,
                         String.valueOf(

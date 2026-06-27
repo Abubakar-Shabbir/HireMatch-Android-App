@@ -1,22 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/background">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Applicants"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="15dp"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvApplicants"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="22dp">
 
-</LinearLayout>
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:src="@drawable/hirematch_logo"
+                android:scaleType="fitCenter"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Applicants Ranking"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Smart ATS based candidate ranking"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_secondary"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Analytics Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginTop="22dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <!-- Total Applicants -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvTotalApplicants"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Applicants"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_secondary"/>
+
+            </LinearLayout>
+
+            <!-- Top ATS -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvTopScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0%"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/accent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Top ATS Score"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_secondary"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Section Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Candidate Pipeline"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:layout_marginTop="24dp"/>
+
+        <!-- Empty State -->
+        <TextView
+            android:id="@+id/tvEmptyState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No applicants found yet"
+            android:textSize="15sp"
+            android:textColor="@color/text_secondary"
+            android:gravity="center"
+            android:layout_marginTop="50dp"
+            android:visibility="gone"/>
+
+        <!-- Applicants List -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvApplicants"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="14dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

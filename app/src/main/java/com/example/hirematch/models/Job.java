@@ -2,67 +2,185 @@ package com.example.hirematch.models;
 
 public class Job {
 
-
     private String jobId;
     private String hrId;
-    private String title;
-    private String description;
-    private String skills;
-    private String experience;
+
+    private String companyId;
+    private String companyName;
+
+    private String jobTitle;
+    private String jobDescription;
+
+    private String jobType;
+    private String workMode;
+
+    private String salaryMin;
+    private String salaryMax;
+
     private String location;
-    private String salary;
+    private String experienceLevel;
+
+    private String requiredSkills;
+    private String educationRequirement;
+
+    private String vacancies;
+    private String deadline;
+
+    private String benefits;
     private String status;
+
+    private String createdAt;
 
     public Job() {
     }
 
-    public Job(String jobId,
-               String hrId,
-               String title,
-               String description,
-               String skills,
-               String experience,
-               String location,
-               String salary,
-               String status) {
-
+    public Job(
+            String jobId,
+            String hrId,
+            String companyId,
+            String companyName,
+            String jobTitle,
+            String jobDescription,
+            String jobType,
+            String workMode,
+            String salaryMin,
+            String salaryMax,
+            String location,
+            String experienceLevel,
+            String requiredSkills,
+            String educationRequirement,
+            String vacancies,
+            String deadline,
+            String benefits,
+            String status,
+            String createdAt
+    ) {
         this.jobId = jobId;
         this.hrId = hrId;
-        this.title = title;
-        this.description = description;
-        this.skills = skills;
-        this.experience = experience;
+        this.companyId = companyId;
+        this.companyName = companyName;
+        this.jobTitle = jobTitle;
+        this.jobDescription = jobDescription;
+        this.jobType = jobType;
+        this.workMode = workMode;
+        this.salaryMin = salaryMin;
+        this.salaryMax = salaryMax;
         this.location = location;
-        this.salary = salary;
+        this.experienceLevel = experienceLevel;
+        this.requiredSkills = requiredSkills;
+        this.educationRequirement = educationRequirement;
+        this.vacancies = vacancies;
+        this.deadline = deadline;
+        this.benefits = benefits;
         this.status = status;
+        this.createdAt = createdAt;
     }
 
-    public String getJobId() { return jobId; }
-    public void setJobId(String jobId) { this.jobId = jobId; }
+    public String getJobId() {
+        return jobId;
+    }
 
-    public String getHrId() { return hrId; }
-    public void setHrId(String hrId) { this.hrId = hrId; }
+    public String getHrId() {
+        return hrId;
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public String getCompanyId() {
+        return companyId;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getCompanyName() {
+        return companyName;
+    }
 
-    public String getSkills() { return skills; }
-    public void setSkills(String skills) { this.skills = skills; }
+    public String getJobTitle() {
+        return jobTitle;
+    }
 
-    public String getExperience() { return experience; }
-    public void setExperience(String experience) { this.experience = experience; }
+    public String getJobDescription() {
+        return jobDescription;
+    }
 
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
+    public String getJobType() {
+        return jobType;
+    }
 
-    public String getSalary() { return salary; }
-    public void setSalary(String salary) { this.salary = salary; }
+    public String getWorkMode() {
+        return workMode;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public String getSalaryMin() {
+        return salaryMin;
+    }
+
+    public String getSalaryMax() {
+        return salaryMax;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getExperienceLevel() {
+        return experienceLevel;
+    }
+
+    public String getRequiredSkills() {
+        return requiredSkills;
+    }
+
+    public String getEducationRequirement() {
+        return educationRequirement;
+    }
+
+    public String getVacancies() {
+        return vacancies;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public String getBenefits() {
+        return benefits;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    /*
+    =========================================
+    BACKWARD COMPATIBILITY METHODS
+    OLD FILES WON'T BREAK
+    =========================================
+    */
+
+    public String getTitle() {
+        return jobTitle;
+    }
 
 
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
+    }
+
+    public String getDescription() {
+        return jobDescription;
+    }
+
+    public String getSkills() {
+        return requiredSkills;
+    }
+
+    public String getExperience() {
+        return experienceLevel;
+    }
+
+    public String getSalary() {
+        return salaryMin + " - " + salaryMax;
+    }
 }

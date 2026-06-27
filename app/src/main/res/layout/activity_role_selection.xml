@@ -1,30 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:background="@color/background"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:gravity="center"
+    android:padding="28dp">
 
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:src="@drawable/hirematch_logo"
+        android:scaleType="fitCenter"
+        android:animation="@anim/scale_in" />
+
+    <!-- Title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select Your Role"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        style="@style/HeadingXL"
+        android:layout_marginTop="25dp"
+        android:animation="@anim/fade_in" />
 
-    <Button
-        android:id="@+id/btnCandidate"
+    <!-- Subtitle -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose how you want to continue"
+        style="@style/BodyText"
+        android:layout_marginTop="8dp"
+        android:animation="@anim/fade_in" />
+
+    <!-- Candidate Card -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="I am Candidate" />
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
+        android:padding="22dp"
+        android:background="@drawable/card_bg"
+        android:elevation="8dp"
+        android:animation="@anim/slide_up">
 
-    <Button
-        android:id="@+id/btnHR"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Candidate"
+            style="@style/HeadingM" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Find jobs, track applications and manage interviews"
+            style="@style/BodyText"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/btnCandidate"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="18dp"
+            android:text="Continue as Candidate"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:background="@drawable/button_primary" />
+
+    </LinearLayout>
+
+    <!-- HR Card -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="I am HR" />
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:padding="22dp"
+        android:background="@drawable/card_bg"
+        android:elevation="8dp"
+        android:animation="@anim/slide_up">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HR Recruiter"
+            style="@style/HeadingM" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Post jobs, manage applicants and hire top talent"
+            style="@style/BodyText"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/btnHR"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="18dp"
+            android:text="Continue as HR"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:background="@drawable/button_primary" />
+
+    </LinearLayout>
 
 </LinearLayout>

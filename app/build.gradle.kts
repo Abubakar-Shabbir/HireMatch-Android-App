@@ -45,4 +45,5 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("com.google.firebase:firebase-firestore:26.0.0")
     implementation("com.google.firebase:firebase-messaging:24.0.1")
+    implementation("com.airbnb.android:lottie:6.4.0")
 }

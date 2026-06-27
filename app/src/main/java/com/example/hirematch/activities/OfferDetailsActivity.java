@@ -12,7 +12,8 @@ import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.models.Notification;
 import com.example.hirematch.models.Offer;
 
-public class OfferDetailsActivity extends AppCompatActivity {
+public class OfferDetailsActivity
+        extends AppCompatActivity {
 
     private TextView tvJobTitle;
     private TextView tvSalary;
@@ -30,13 +31,12 @@ public class OfferDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_details);
 
-        initViews();
-
         offerId =
                 getIntent().getStringExtra(
                         "offerId"
                 );
 
+        initViews();
         loadOfferDetails();
     }
 
@@ -77,33 +77,53 @@ public class OfferDetailsActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(document -> {
 
+                    if (!document.exists()) {
+                        finish();
+                        return;
+                    }
+
                     currentOffer =
                             document.toObject(
                                     Offer.class
                             );
 
-                    if (currentOffer != null) {
+                    if (currentOffer == null)
+                        return;
 
-                        tvJobTitle.setText(
-                                currentOffer.getJobTitle()
-                        );
+                    tvJobTitle.setText(
+                            currentOffer.getJobTitle()
+                    );
 
-                        tvSalary.setText(
-                                "Salary: " +
-                                        currentOffer.getSalary()
-                        );
+                    tvSalary.setText(
+                            "Salary: " +
+                                    currentOffer.getSalary()
+                    );
 
-                        tvJoiningDate.setText(
-                                "Joining Date: " +
-                                        currentOffer.getJoiningDate()
-                        );
+                    tvJoiningDate.setText(
+                            "Joining Date: " +
+                                    currentOffer.getJoiningDate()
+                    );
 
-                        tvOfferStatus.setText(
-                                "Status: " +
-                                        currentOffer.getOfferStatus()
-                        );
-                    }
+                    tvOfferStatus.setText(
+                            "Status: " +
+                                    currentOffer.getOfferStatus()
+                    );
+
+                    handleButtonState();
                 });
+    }
+
+    private void handleButtonState() {
+
+        String status =
+                currentOffer.getOfferStatus();
+
+        if ("Accepted".equals(status) ||
+                "Rejected".equals(status)) {
+
+            btnAcceptOffer.setEnabled(false);
+            btnRejectOffer.setEnabled(false);
+        }
     }
 
     private void updateOfferStatus(String status) {
@@ -117,19 +137,7 @@ public class OfferDetailsActivity extends AppCompatActivity {
                 )
                 .addOnSuccessListener(unused -> {
 
-                    if (status.equals("Accepted")) {
-
-                        FirebaseManager.getFirestore()
-                                .collection("applications")
-                                .document(
-                                        currentOffer.getApplicationId()
-                                )
-                                .update(
-                                        "applicationStatus",
-                                        "Hired"
-                                );
-                    }
-
+                    updateApplication(status);
                     createNotification(status);
 
                     Toast.makeText(
@@ -140,6 +148,39 @@ public class OfferDetailsActivity extends AppCompatActivity {
 
                     finish();
                 });
+    }
+
+    private void updateApplication(String status) {
+
+        if (currentOffer == null)
+            return;
+
+        if ("Accepted".equals(status)) {
+
+            FirebaseManager.getFirestore()
+                    .collection("applications")
+                    .document(
+                            currentOffer.getApplicationId()
+                    )
+                    .update(
+                            "applicationStatus", "Hired",
+                            "currentStage", "Finalized",
+                            "offerStatus", "Accepted"
+                    );
+
+        } else {
+
+            FirebaseManager.getFirestore()
+                    .collection("applications")
+                    .document(
+                            currentOffer.getApplicationId()
+                    )
+                    .update(
+                            "applicationStatus", "Offer Rejected",
+                            "currentStage", "Closed",
+                            "offerStatus", "Rejected"
+                    );
+        }
     }
 
     private void createNotification(String status) {
@@ -155,10 +196,10 @@ public class OfferDetailsActivity extends AppCompatActivity {
                         notificationId,
                         currentOffer.getHrId(),
                         "Offer Update",
-                        "Candidate has " +
-                                status.toLowerCase() +
-                                " the offer for " +
-                                currentOffer.getJobTitle(),
+                        "Candidate has "
+                                + status.toLowerCase()
+                                + " the offer for "
+                                + currentOffer.getJobTitle(),
                         "offer",
                         false,
                         String.valueOf(

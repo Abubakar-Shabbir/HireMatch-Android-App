@@ -11,7 +11,9 @@ public class Offer {
     private String joiningDate;
     private String offerStatus;
     private String createdAt;
-
+    public void setOfferId(String offerId) {
+        this.offerId = offerId;
+    }
     public Offer() {
     }
 

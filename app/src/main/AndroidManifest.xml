@@ -1,153 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Internet Permission -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="HireMatch"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HireMatch">
 
-        <!-- Firebase Messaging Service -->
+        <!-- Firebase Messaging -->
         <service
             android:name=".services.MyFirebaseMessagingService"
             android:exported="false">
 
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
-
         </service>
 
-        <!-- Splash Screen -->
+        <!-- Splash -->
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
 
         <!-- Authentication -->
-        <activity
-            android:name=".activities.LoginActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.RegisterActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.ForgotPasswordActivity"
-            android:exported="false" />
-
-        <!-- Role Selection -->
-        <activity
-            android:name=".activities.RoleSelectionActivity"
-            android:exported="false" />
+        <activity android:name=".activities.LoginActivity"/>
+        <activity android:name=".activities.RegisterActivity"/>
+        <activity android:name=".activities.ForgotPasswordActivity"/>
+        <activity android:name=".activities.RoleSelectionActivity"/>
 
         <!-- Candidate Module -->
-        <activity
-            android:name=".activities.CandidateDashboardActivity"
-            android:exported="false" />
+        <activity android:name=".activities.CandidateDashboardActivity"/>
+        <activity android:name=".activities.CandidateProfileActivity"/>
+        <activity android:name=".activities.CandidateViewActivity"/>
+        <activity android:name=".activities.UploadResumeActivity"/>
+        <activity android:name=".activities.AddSkillsActivity"/>
+        <activity android:name=".activities.ATSScoreActivity"/>
+        <activity android:name=".activities.NotificationsActivity"/>
 
-        <activity
-            android:name=".activities.CandidateProfileActivity"
-            android:exported="false" />
+        <!-- Job Module -->
+        <activity android:name=".activities.JobListingActivity"/>
+        <activity android:name=".activities.JobDetailsActivity"/>
+        <activity android:name=".activities.CreateJobActivity"/>
+        <activity android:name=".activities.EditJobActivity"/>
+        <activity android:name=".activities.JobManagementActivity"/>
 
-        <activity
-            android:name=".activities.UploadResumeActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.ATSScoreActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.NotificationsActivity"
-            android:exported="false" />
-
-        <!-- Candidate Jobs -->
-        <activity
-            android:name=".activities.JobListingActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.JobDetailsActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.MyApplicationsActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.ApplicationDetailsActivity"
-            android:exported="false" />
+        <!-- Application Module -->
+        <activity android:name=".activities.MyApplicationsActivity"/>
+        <activity android:name=".activities.ApplicationDetailsActivity"/>
+        <activity android:name=".activities.ApplicantsActivity"/>
+        <activity android:name=".activities.ApplicantDetailsActivity"/>
 
         <!-- Interview Module -->
-        <activity
-            android:name=".activities.ScheduleInterviewActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.MyInterviewsActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.InterviewDetailsActivity"
-            android:exported="false" />
+        <activity android:name=".activities.ScheduleInterviewActivity"/>
+        <activity android:name=".activities.MyInterviewsActivity"/>
+        <activity android:name=".activities.InterviewDetailsActivity"/>
 
         <!-- Offer Module -->
-        <activity
-            android:name=".activities.SendOfferActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.MyOffersActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.OfferDetailsActivity"
-            android:exported="false" />
+        <activity android:name=".activities.SendOfferActivity"/>
+        <activity android:name=".activities.MyOffersActivity"/>
+        <activity android:name=".activities.OfferDetailsActivity"/>
 
         <!-- HR Module -->
-        <activity
-            android:name=".activities.HRDashboardActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.CompanyProfileActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.CreateJobActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.JobManagementActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.EditJobActivity"
-            android:exported="false" />
-
-        <!-- Applicant Management -->
-        <activity
-            android:name=".activities.ApplicantsActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activities.ApplicantDetailsActivity"
-            android:exported="false" />
+        <activity android:name=".activities.HRDashboardActivity"/>
+        <activity android:name=".activities.CompanyProfileActivity"/>
 
     </application>
 

@@ -1,72 +1,313 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="22dp">
+
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center"
+            android:src="@drawable/hirematch_logo"
+            android:scaleType="fitCenter" />
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="Build Your Profile"
+            android:textColor="@color/primary"
+            android:textSize="28sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Candidate Profile"
-            android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:layout_gravity="center"
+            android:layout_marginTop="6dp"
+            android:text="Complete your professional identity"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <!-- Progress Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/card_bg"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile Completion"
+                android:textColor="@color/primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvProfileProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="0% Completed"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+
+            <ProgressBar
+                android:id="@+id/progressProfile"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="14dp"
+                android:max="100"
+                android:progress="0" />
+
+        </LinearLayout>
+
+        <!-- Basic Information -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Basic Information"
+            android:textColor="@color/primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Full Name"/>
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/input_bg"
+            android:hint="Full Name"
+            android:padding="16dp" />
 
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"/>
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:hint="Email"
+            android:padding="16dp" />
 
         <EditText
             android:id="@+id/etPhone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Phone Number"/>
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:hint="Phone"
+            android:padding="16dp" />
 
         <EditText
             android:id="@+id/etCity"
             android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:hint="City"
+            android:padding="16dp" />
+
+        <!-- Professional -->
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="City"/>
+            android:layout_marginTop="24dp"
+            android:text="Professional Details"
+            android:textColor="@color/primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etTitle"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/input_bg"
+            android:hint="Professional Title"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/etAbout"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:gravity="top"
+            android:hint="About Yourself"
+            android:padding="16dp" />
 
         <EditText
             android:id="@+id/etSkills"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Skills (Java, Firebase, Android)"
-            android:minLines="3"/>
+            android:layout_height="120dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:gravity="top"
+            android:hint="Skills"
+            android:padding="16dp" />
 
         <EditText
             android:id="@+id/etEducation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:gravity="top"
             android:hint="Education"
-            android:minLines="3"/>
+            android:padding="16dp" />
 
         <EditText
             android:id="@+id/etExperience"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:gravity="top"
             android:hint="Experience"
-            android:minLines="3"/>
+            android:padding="16dp" />
 
+        <!-- Achievements -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Achievements"
+            android:textColor="@color/primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etCertifications"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/input_bg"
+            android:gravity="top"
+            android:hint="Certifications"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/etAchievements"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:gravity="top"
+            android:hint="Achievements"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/etAwards"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:gravity="top"
+            android:hint="Awards"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/etProjects"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:gravity="top"
+            android:hint="Projects"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/etPortfolio"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:hint="Portfolio / LinkedIn / GitHub"
+            android:padding="16dp" />
+
+        <!-- Preferences -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Job Preferences"
+            android:textColor="@color/primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etExpectedSalary"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/input_bg"
+            android:hint="Expected Salary"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/etPreferredJobType"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:hint="Preferred Job Type"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/etPreferredLocation"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:hint="Preferred Location"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/etAvailability"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:hint="Availability"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/etWorkMode"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:hint="Work Mode (Remote / Hybrid / Onsite)"
+            android:padding="16dp" />
+
+        <!-- Save Button -->
         <Button
             android:id="@+id/btnSaveProfile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="58dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/button_primary"
             android:text="Save Profile"
-            android:layout_marginTop="20dp"/>
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

@@ -1,68 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
-    ```
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <TextView
-            android:text="Create Job"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/etTitle"
-            android:hint="Job Title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/etDescription"
-            android:hint="Job Description"
-            android:minLines="4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/etSkills"
-            android:hint="Required Skills"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/etExperience"
-            android:hint="Required Experience"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/etLocation"
-            android:hint="Location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/etSalary"
-            android:hint="Salary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/btnCreateJob"
-            android:text="Create Job"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"/>
+            android:orientation="vertical"
+            android:padding="22dp">
 
-    </LinearLayout>
-    ```
+            <!-- Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
 
-</ScrollView>
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:src="@drawable/hirematch_logo"
+                    android:scaleType="fitCenter"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Create Job"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Build your next hiring opportunity"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Job Information -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:orientation="vertical"
+                android:background="@drawable/card_bg"
+                android:padding="18dp">
+
+                <EditText
+                    android:id="@+id/etJobTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/input_bg"
+                    android:hint="Job Title"
+                    android:padding="16dp"/>
+
+                <EditText
+                    android:id="@+id/etJobDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/input_bg"
+                    android:gravity="top"
+                    android:hint="Job Description"
+                    android:padding="16dp"/>
+
+                <EditText
+                    android:id="@+id/etJobType"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/input_bg"
+                    android:hint="Job Type (Full-time / Part-time)"
+                    android:padding="16dp"/>
+
+                <EditText
+                    android:id="@+id/etWorkMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/input_bg"
+                    android:hint="Work Mode (Remote / Hybrid / Onsite)"
+                    android:padding="16dp"/>
+
+            </LinearLayout>
+
+            <!-- Salary Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Salary Range"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                android:layout_marginTop="24dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_marginTop="12dp">
+
+                <EditText
+                    android:id="@+id/etSalaryMin"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/input_bg"
+                    android:hint="Min"
+                    android:padding="16dp"/>
+
+                <EditText
+                    android:id="@+id/etSalaryMax"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/input_bg"
+                    android:hint="Max"
+                    android:padding="16dp"/>
+
+            </LinearLayout>
+
+            <!-- Requirements -->
+            <EditText
+                android:id="@+id/etLocation"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/input_bg"
+                android:hint="Location"
+                android:padding="16dp"/>
+
+            <EditText
+                android:id="@+id/etExperienceLevel"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/input_bg"
+                android:hint="Experience Level"
+                android:padding="16dp"/>
+
+            <EditText
+                android:id="@+id/etRequiredSkills"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/input_bg"
+                android:gravity="top"
+                android:hint="Required Skills"
+                android:padding="16dp"/>
+
+            <EditText
+                android:id="@+id/etEducationRequirement"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/input_bg"
+                android:gravity="top"
+                android:hint="Education Requirement"
+                android:padding="16dp"/>
+
+            <EditText
+                android:id="@+id/etVacancies"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/input_bg"
+                android:hint="Number of Vacancies"
+                android:padding="16dp"/>
+
+            <EditText
+                android:id="@+id/etDeadline"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/input_bg"
+                android:hint="Application Deadline"
+                android:focusable="false"
+                android:clickable="true"
+                android:padding="16dp"/>
+
+            <EditText
+                android:id="@+id/etBenefits"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/input_bg"
+                android:gravity="top"
+                android:hint="Benefits"
+                android:padding="16dp"/>
+
+            <!-- Create Button -->
+            <Button
+                android:id="@+id/btnCreateJob"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="30dp"
+                android:text="Publish Job"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:background="@drawable/button_primary"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

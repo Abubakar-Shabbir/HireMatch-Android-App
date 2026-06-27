@@ -12,8 +12,8 @@ import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.models.Application;
 import com.example.hirematch.models.Job;
 
-public class JobDetailsActivity extends AppCompatActivity {
-
+public class JobDetailsActivity
+        extends AppCompatActivity {
 
     private TextView tvTitle;
     private TextView tvDescription;
@@ -34,10 +34,7 @@ public class JobDetailsActivity extends AppCompatActivity {
 
         initViews();
 
-        jobId =
-                getIntent().getStringExtra(
-                        "jobId"
-                );
+        jobId = getIntent().getStringExtra("jobId");
 
         loadJob(jobId);
 
@@ -48,26 +45,14 @@ public class JobDetailsActivity extends AppCompatActivity {
 
     private void initViews() {
 
-        tvTitle =
-                findViewById(R.id.tvTitle);
+        tvTitle = findViewById(R.id.tvTitle);
+        tvDescription = findViewById(R.id.tvDescription);
+        tvSkills = findViewById(R.id.tvSkills);
+        tvExperience = findViewById(R.id.tvExperience);
+        tvLocation = findViewById(R.id.tvLocation);
+        tvSalary = findViewById(R.id.tvSalary);
 
-        tvDescription =
-                findViewById(R.id.tvDescription);
-
-        tvSkills =
-                findViewById(R.id.tvSkills);
-
-        tvExperience =
-                findViewById(R.id.tvExperience);
-
-        tvLocation =
-                findViewById(R.id.tvLocation);
-
-        tvSalary =
-                findViewById(R.id.tvSalary);
-
-        btnApply =
-                findViewById(R.id.btnApply);
+        btnApply = findViewById(R.id.btnApply);
     }
 
     private void loadJob(String jobId) {
@@ -79,28 +64,26 @@ public class JobDetailsActivity extends AppCompatActivity {
                 .addOnSuccessListener(document -> {
 
                     currentJob =
-                            document.toObject(
-                                    Job.class
-                            );
+                            document.toObject(Job.class);
 
                     if (currentJob != null) {
 
                         tvTitle.setText(
-                                currentJob.getTitle()
+                                currentJob.getJobTitle()
                         );
 
                         tvDescription.setText(
-                                currentJob.getDescription()
+                                currentJob.getJobDescription()
                         );
 
                         tvSkills.setText(
                                 "Skills: " +
-                                        currentJob.getSkills()
+                                        currentJob.getRequiredSkills()
                         );
 
                         tvExperience.setText(
                                 "Experience: " +
-                                        currentJob.getExperience()
+                                        currentJob.getExperienceLevel()
                         );
 
                         tvLocation.setText(
@@ -110,7 +93,9 @@ public class JobDetailsActivity extends AppCompatActivity {
 
                         tvSalary.setText(
                                 "Salary: " +
-                                        currentJob.getSalary()
+                                        currentJob.getSalaryMin()
+                                        + " - " +
+                                        currentJob.getSalaryMax()
                         );
                     }
                 });
@@ -136,22 +121,22 @@ public class JobDetailsActivity extends AppCompatActivity {
                 .addOnSuccessListener(document -> {
 
                     String name =
-                            document.getString(
-                                    "name"
-                            );
+                            document.getString("name");
 
                     String email =
-                            document.getString(
-                                    "email"
-                            );
+                            document.getString("email");
+
+                    String phone =
+                            document.getString("phone");
+
+                    String resumeUrl =
+                            document.getString("resumeUrl");
 
                     String candidateSkills =
-                            document.getString(
-                                    "skills"
-                            );
+                            document.getString("skills");
 
                     String jobSkills =
-                            currentJob.getSkills();
+                            currentJob.getRequiredSkills();
 
                     int atsScore =
                             calculateATS(
@@ -159,20 +144,35 @@ public class JobDetailsActivity extends AppCompatActivity {
                                     jobSkills
                             );
 
+                    int profileScore = 80;
+
                     Application application =
                             new Application(
                                     applicationId,
-                                    currentJob.getTitle(),
-                                    jobId,
-                                    candidateId,
+                                    currentJob.getJobId(),
+                                    currentJob.getJobTitle(),
                                     currentJob.getHrId(),
+
+                                    candidateId,
                                     name,
                                     email,
+                                    phone,
+                                    resumeUrl,
+
+                                    atsScore,
+                                    profileScore,
+
                                     "Applied",
-                                    String.valueOf(
-                                            System.currentTimeMillis()
-                                    ),
-                                    atsScore
+                                    "Screening",
+
+                                    "",
+                                    "",
+
+                                    "",
+                                    "Pending",
+
+                                    System.currentTimeMillis(),
+                                    System.currentTimeMillis()
                             );
 
                     FirebaseManager.getFirestore()
@@ -201,36 +201,24 @@ public class JobDetailsActivity extends AppCompatActivity {
         }
 
         String[] candidateArray =
-                candidateSkills
-                        .toLowerCase()
-                        .split(",");
+                candidateSkills.toLowerCase().split(",");
 
         String[] jobArray =
-                jobSkills
-                        .toLowerCase()
-                        .split(",");
+                jobSkills.toLowerCase().split(",");
 
         int matched = 0;
 
-        for (String jobSkill :
-                jobArray) {
+        for (String jobSkill : jobArray) {
+            for (String candidateSkill : candidateArray) {
 
-            for (String candidateSkill :
-                    candidateArray) {
-
-                if (jobSkill.trim()
-                        .equals(
-                                candidateSkill.trim()
-                        )) {
-
+                if (jobSkill.trim().equals(
+                        candidateSkill.trim()
+                )) {
                     matched++;
                 }
             }
         }
 
-        return (matched * 100)
-                / jobArray.length;
+        return (matched * 100) / jobArray.length;
     }
-
-
 }

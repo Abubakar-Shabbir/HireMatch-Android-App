@@ -4,19 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/background">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Interviews"
+        android:text="Manage Interviews"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/primary"
         android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:id="@+id/tvEmptyState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No interviews available"
+        android:textSize="16sp"
+        android:textColor="@color/text_secondary"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvInterviews"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

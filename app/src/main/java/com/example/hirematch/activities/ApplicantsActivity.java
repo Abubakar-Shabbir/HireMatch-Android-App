@@ -1,6 +1,8 @@
 package com.example.hirematch.activities;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,16 +12,18 @@ import com.example.hirematch.R;
 import com.example.hirematch.adapters.ApplicantAdapter;
 import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.models.Application;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
-public class ApplicantsActivity extends AppCompatActivity {
-
+public class ApplicantsActivity
+        extends AppCompatActivity {
 
     private RecyclerView rvApplicants;
+    private TextView tvTotalApplicants;
+    private TextView tvTopScore;
+    private TextView tvEmptyState;
 
     private ArrayList<Application> applicantList;
     private ApplicantAdapter adapter;
@@ -32,13 +36,34 @@ public class ApplicantsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_applicants);
 
         jobId =
-                getIntent().getStringExtra("jobId");
+                getIntent().getStringExtra(
+                        "jobId"
+                );
+
+        initViews();
+        setupRecycler();
+        loadApplicants();
+    }
+
+    private void initViews() {
 
         rvApplicants =
                 findViewById(R.id.rvApplicants);
 
+        tvTotalApplicants =
+                findViewById(R.id.tvTotalApplicants);
+
+        tvTopScore =
+                findViewById(R.id.tvTopScore);
+
+        tvEmptyState =
+                findViewById(R.id.tvEmptyState);
+
         applicantList =
                 new ArrayList<>();
+    }
+
+    private void setupRecycler() {
 
         adapter =
                 new ApplicantAdapter(
@@ -51,8 +76,6 @@ public class ApplicantsActivity extends AppCompatActivity {
         );
 
         rvApplicants.setAdapter(adapter);
-
-        loadApplicants();
     }
 
     private void loadApplicants() {
@@ -62,17 +85,32 @@ public class ApplicantsActivity extends AppCompatActivity {
                         .getCurrentUser()
                         .getUid();
 
-        FirebaseManager.getFirestore()
-                .collection("applications")
-                .whereEqualTo("hrId", hrId)
-                .whereEqualTo("jobId", jobId)
-                .get()
-                .addOnSuccessListener(query -> {
+        Query query =
+                FirebaseManager.getFirestore()
+                        .collection("applications")
+                        .whereEqualTo("hrId", hrId);
+
+        if (jobId != null) {
+            query =
+                    query.whereEqualTo(
+                            "jobId",
+                            jobId
+                    );
+        }
+
+        query.addSnapshotListener(
+                (snapshot, error) -> {
+
+                    if (error != null)
+                        return;
+
+                    if (snapshot == null)
+                        return;
 
                     applicantList.clear();
 
-                    for (DocumentSnapshot doc :
-                            query.getDocuments()) {
+                    for (var doc :
+                            snapshot.getDocuments()) {
 
                         Application application =
                                 doc.toObject(
@@ -101,8 +139,41 @@ public class ApplicantsActivity extends AppCompatActivity {
                     );
 
                     adapter.notifyDataSetChanged();
-                });
+
+                    tvTotalApplicants.setText(
+                            String.valueOf(
+                                    applicantList.size()
+                            )
+                    );
+
+                    if (applicantList.size() > 0) {
+
+                        tvTopScore.setText(
+                                applicantList.get(0)
+                                        .getAtsScore() + "%"
+                        );
+
+                        tvEmptyState.setVisibility(
+                                View.GONE
+                        );
+
+                        rvApplicants.setVisibility(
+                                View.VISIBLE
+                        );
+
+                    } else {
+
+                        tvTopScore.setText("0%");
+
+                        tvEmptyState.setVisibility(
+                                View.VISIBLE
+                        );
+
+                        rvApplicants.setVisibility(
+                                View.GONE
+                        );
+                    }
+                }
+        );
     }
-
-
 }

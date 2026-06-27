@@ -14,7 +14,8 @@ import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.models.Interview;
 import com.example.hirematch.models.Notification;
 
-public class InterviewDetailsActivity extends AppCompatActivity {
+public class InterviewDetailsActivity
+        extends AppCompatActivity {
 
     private TextView tvJobTitle;
     private TextView tvInterviewDate;
@@ -75,19 +76,21 @@ public class InterviewDetailsActivity extends AppCompatActivity {
     private void setupListeners() {
 
         btnReschedule.setOnClickListener(v ->
-                updateInterviewStatus("Rescheduled")
-        );
+                updateInterviewStatus("Rescheduled"));
 
         btnComplete.setOnClickListener(v ->
-                updateInterviewStatus("Completed")
-        );
+                updateInterviewStatus("Completed"));
 
         btnCancel.setOnClickListener(v ->
-                updateInterviewStatus("Cancelled")
-        );
+                updateInterviewStatus("Cancelled"));
     }
 
     private void loadInterviewDetails() {
+
+        if (interviewId == null) {
+            finish();
+            return;
+        }
 
         FirebaseManager.getFirestore()
                 .collection("interviews")
@@ -95,39 +98,46 @@ public class InterviewDetailsActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(document -> {
 
+                    if (!document.exists()) {
+                        finish();
+                        return;
+                    }
+
                     currentInterview =
                             document.toObject(
                                     Interview.class
                             );
 
-                    if (currentInterview != null) {
-
-                        tvJobTitle.setText(
-                                currentInterview.getJobTitle()
-                        );
-
-                        tvInterviewDate.setText(
-                                "Date: " +
-                                        currentInterview.getInterviewDate()
-                        );
-
-                        tvInterviewTime.setText(
-                                "Time: " +
-                                        currentInterview.getInterviewTime()
-                        );
-
-                        tvInterviewStatus.setText(
-                                "Status: " +
-                                        currentInterview.getInterviewStatus()
-                        );
-
-                        tvMeetingLink.setText(
-                                "Meeting Link: " +
-                                        currentInterview.getMeetingLink()
-                        );
-
-                        checkUserRole();
+                    if (currentInterview == null) {
+                        finish();
+                        return;
                     }
+
+                    currentInterview.setInterviewId(
+                            document.getId()
+                    );
+
+                    tvJobTitle.setText(
+                            currentInterview.getJobTitle()
+                    );
+
+                    tvInterviewDate.setText(
+                            currentInterview.getInterviewDate()
+                    );
+
+                    tvInterviewTime.setText(
+                            currentInterview.getInterviewTime()
+                    );
+
+                    tvInterviewStatus.setText(
+                            currentInterview.getInterviewStatus()
+                    );
+
+                    tvMeetingLink.setText(
+                            currentInterview.getMeetingLink()
+                    );
+
+                    checkUserRole();
                 });
     }
 
@@ -172,7 +182,7 @@ public class InterviewDetailsActivity extends AppCompatActivity {
 
                         Intent intent =
                                 new Intent(
-                                        InterviewDetailsActivity.this,
+                                        this,
                                         SendOfferActivity.class
                                 );
 
@@ -199,13 +209,6 @@ public class InterviewDetailsActivity extends AppCompatActivity {
                         startActivity(intent);
 
                     } else {
-
-                        Toast.makeText(
-                                this,
-                                "Interview " + status,
-                                Toast.LENGTH_SHORT
-                        ).show();
-
                         finish();
                     }
                 });
@@ -224,9 +227,7 @@ public class InterviewDetailsActivity extends AppCompatActivity {
                         notificationId,
                         currentInterview.getCandidateId(),
                         "Interview Update",
-                        "Your interview for " +
-                                currentInterview.getJobTitle() +
-                                " has been " + status,
+                        "Interview " + status,
                         status.toLowerCase(),
                         false,
                         String.valueOf(

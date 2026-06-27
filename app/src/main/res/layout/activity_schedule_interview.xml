@@ -2,48 +2,133 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="22dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Schedule Interview"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp" />
-
-        <EditText
-            android:id="@+id/etInterviewDate"
+        <!-- Header -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Interview Date (DD/MM/YYYY)"
-            android:layout_marginBottom="15dp" />
+            android:gravity="center_vertical">
 
-        <EditText
-            android:id="@+id/etInterviewTime"
+            <ImageView
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:src="@drawable/hirematch_logo"
+                android:scaleType="fitCenter"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Schedule Interview"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Manage candidate interview process"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_secondary"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Form Card -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Interview Time (e.g. 4:00 PM)"
-            android:layout_marginBottom="15dp" />
+            android:layout_marginTop="22dp"
+            android:background="@drawable/card_bg"
+            android:padding="18dp"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/etMeetingLink"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Meeting Link (Google Meet / Zoom)"
-            android:layout_marginBottom="20dp" />
+            <EditText
+                android:id="@+id/etInterviewDate"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Select Interview Date"
+                android:focusable="false"
+                android:clickable="true"
+                android:background="@drawable/input_bg"
+                android:padding="16dp"/>
 
+            <EditText
+                android:id="@+id/etInterviewTime"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:hint="Select Interview Time"
+                android:focusable="false"
+                android:clickable="true"
+                android:background="@drawable/input_bg"
+                android:padding="16dp"/>
+
+            <EditText
+                android:id="@+id/etInterviewMode"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:hint="Interview Mode (Online / Onsite)"
+                android:background="@drawable/input_bg"
+                android:padding="16dp"/>
+
+            <EditText
+                android:id="@+id/etMeetingLink"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:hint="Meeting Link"
+                android:background="@drawable/input_bg"
+                android:padding="16dp"/>
+
+            <EditText
+                android:id="@+id/etLocation"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:hint="Location (Optional)"
+                android:background="@drawable/input_bg"
+                android:padding="16dp"/>
+
+            <EditText
+                android:id="@+id/etNotes"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="12dp"
+                android:hint="Interview Notes"
+                android:gravity="top"
+                android:background="@drawable/input_bg"
+                android:padding="16dp"/>
+
+        </LinearLayout>
+
+        <!-- Action -->
         <Button
             android:id="@+id/btnScheduleInterview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Schedule Interview" />
+            android:layout_height="58dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="28dp"
+            android:text="Schedule Interview"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="@drawable/button_primary"/>
 
     </LinearLayout>
 

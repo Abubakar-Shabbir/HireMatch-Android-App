@@ -1,62 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="28dp">
 
+        <!-- Top spacing -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center"
+            android:src="@drawable/hirematch_logo"
+            android:scaleType="fitCenter"
+            android:animation="@anim/scale_in" />
+
+        <!-- Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Register"
-            android:textSize="28sp"
-            android:textStyle="bold"/>
+            android:text="Create Account"
+            style="@style/HeadingXL"
+            android:layout_gravity="center"
+            android:layout_marginTop="22dp"
+            android:animation="@anim/fade_in" />
 
-        <EditText
-            android:id="@+id/etName"
+        <!-- Subtitle -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Join HireMatch and build your future"
+            style="@style/BodyText"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:layout_marginTop="8dp"
+            android:animation="@anim/fade_in" />
+
+        <!-- Register Card -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Full Name"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="35dp"
+            android:orientation="vertical"
+            android:padding="26dp"
+            android:background="@drawable/card_bg"
+            android:elevation="8dp"
+            android:animation="@anim/slide_up">
 
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="textEmailAddress"/>
+            <!-- Full Name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Full Name"
+                style="@style/HeadingM" />
 
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword"/>
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/input_bg"
+                android:hint="Enter your full name"
+                android:padding="16dp" />
 
-        <EditText
-            android:id="@+id/etConfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"/>
+            <!-- Email -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email Address"
+                style="@style/HeadingM"
+                android:layout_marginTop="20dp" />
 
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Register"
-            android:layout_marginTop="20dp"/>
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/input_bg"
+                android:hint="example@email.com"
+                android:padding="16dp"
+                android:inputType="textEmailAddress" />
 
+            <!-- Password -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Password"
+                style="@style/HeadingM"
+                android:layout_marginTop="20dp" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/input_bg"
+                android:hint="Create secure password"
+                android:padding="16dp"
+                android:inputType="textPassword" />
+
+            <!-- Confirm Password -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm Password"
+                style="@style/HeadingM"
+                android:layout_marginTop="20dp" />
+
+            <EditText
+                android:id="@+id/etConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/input_bg"
+                android:hint="Re-enter password"
+                android:padding="16dp"
+                android:inputType="textPassword" />
+
+            <!-- Register Button -->
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:layout_marginTop="28dp"
+                android:text="Create Account"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:letterSpacing="0.04"
+                android:background="@drawable/button_primary" />
+
+        </LinearLayout>
+
+        <!-- Bottom Divider -->
+        <View
+            android:layout_width="50dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="28dp"
+            android:background="@color/accent" />
+
+        <!-- Login Link -->
         <TextView
             android:id="@+id/tvLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Already have an account? Login"
-            android:layout_marginTop="15dp"/>
+            android:textColor="@color/accent"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="18dp"
+            android:animation="@anim/fade_in" />
 
     </LinearLayout>
 
