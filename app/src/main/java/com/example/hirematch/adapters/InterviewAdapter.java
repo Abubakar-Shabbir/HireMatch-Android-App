@@ -172,6 +172,15 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
                     "jobTitle",
                     interview.getJobTitle()
             );
+            intent.putExtra(
+                    "candidateName",
+                    interview.getCandidateName()
+            );
+
+            intent.putExtra(
+                    "jobId",
+                    interview.getJobId()
+            );
 
             context.startActivity(intent);
         });
