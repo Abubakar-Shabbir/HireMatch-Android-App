@@ -87,14 +87,15 @@
 
                 <ProgressBar
                     android:id="@+id/progressProfile"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"
+                    android:layout_height="8dp"
                     android:layout_marginTop="12dp"
-                    android:max="100" />
-
+                    android:max="100"
+                    android:progress="0"
+                    android:progressTint="@color/primary"
+                    android:progressBackgroundTint="#E4E8EF"/>
             </LinearLayout>
-
-            <!-- Row 1 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -105,9 +106,13 @@
                 <LinearLayout
                     android:id="@+id/btnMyApplications"
                     android:layout_width="0dp"
-                    android:layout_height="110dp"
+                    android:layout_height="115dp"
                     android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
                     android:background="@drawable/card_bg"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:elevation="5dp"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -116,23 +121,29 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:textColor="#1565C0"
+                        android:textSize="30sp"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Applications" />
+                        android:text="Applications"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold"/>
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/btnMyInterviews"
                     android:layout_width="0dp"
-                    android:layout_height="110dp"
-                    android:layout_marginStart="10dp"
+                    android:layout_height="115dp"
                     android:layout_weight="1"
+                    android:layout_marginStart="8dp"
                     android:background="@drawable/card_bg"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:elevation="5dp"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -141,13 +152,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:textColor="#2E7D32"
+                        android:textSize="30sp"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Interviews" />
+                        android:text="Interviews"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold"/>
 
                 </LinearLayout>
 
@@ -170,18 +184,22 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
+
                     <TextView
                         android:id="@+id/tvOffersCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:textColor="#F57C00"
+                        android:textSize="30sp"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Offers" />
+                        android:text="Offers"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold"/>
 
                 </LinearLayout>
 
@@ -216,26 +234,40 @@
             <Button
                 android:id="@+id/btnResume"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/button_primary"
-                android:text="Upload Resume" />
+                android:layout_height="56dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="#1565C0"
+                android:text="Update Resume"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:textSize="16sp"/>
 
             <Button
                 android:id="@+id/btnJobs"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/button_primary"
-                android:text="Browse Jobs" />
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#43A047"
+                android:text="Browse Jobs"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
 
             <Button
                 android:id="@+id/btnLogout"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
+                android:layout_height="56dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/input_bg"
-                android:text="Logout" />
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="#D32F2F"
+                android:text="Logout"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
 
         </LinearLayout>
 

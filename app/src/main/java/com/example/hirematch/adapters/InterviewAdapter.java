@@ -30,6 +30,7 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
         this.interviewList = interviewList;
     }
 
+
     @NonNull
     @Override
     public InterviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,59 +46,145 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
 
         Interview interview = interviewList.get(position);
 
+        // Job Title
         holder.tvJobTitle.setText(
                 interview.getJobTitle() == null ?
                         "No Job Title" :
                         interview.getJobTitle()
         );
 
+        // Candidate Name
         holder.tvCandidateName.setText(
                 interview.getCandidateName() == null ?
                         "Unknown Candidate" :
                         interview.getCandidateName()
         );
+        holder.tvMeetingLink.setText(
+                "Meeting Link : " +
+                        (interview.getMeetingLink() == null ||
+                                interview.getMeetingLink().isEmpty()
+                                ? "N/A"
+                                : interview.getMeetingLink())
+        );
 
+        holder.tvLocation.setText(
+                "Location : " +
+                        (interview.getLocation() == null ||
+                                interview.getLocation().isEmpty()
+                                ? "N/A"
+                                : interview.getLocation())
+        );
+
+
+        // Check Interview Scheduled or Not
         boolean scheduled =
                 interview.getInterviewDate() != null &&
                         !interview.getInterviewDate().trim().isEmpty();
 
         if (scheduled) {
 
-            holder.tvDate.setText(
-                    "Date : " + interview.getInterviewDate()
-            );
+            holder.tvDate.setText("Date : " + interview.getInterviewDate());
+            holder.tvTime.setText("Time : " + interview.getInterviewTime());
+            holder.tvMode.setText("Mode : " + interview.getInterviewMode());
 
-            holder.tvTime.setText(
-                    "Time : " + interview.getInterviewTime()
-            );
+            String status = interview.getInterviewStatus();
 
-            holder.tvMode.setText(
-                    "Mode : " + interview.getInterviewMode()
-            );
+            if (status == null || status.isEmpty()) {
+                status = "Scheduled";
+            }
 
-            holder.tvStatus.setText("SCHEDULED");
-            holder.tvStatus.setBackgroundResource(R.drawable.status_green);
+            holder.tvStatus.setText(status.toUpperCase());
 
-            holder.btnManageInterview.setText("Schedule");
+            switch (status.toLowerCase()) {
 
-            holder.btnCompleteInterview.setVisibility(View.VISIBLE);
-            holder.btnRejectInterview.setVisibility(View.VISIBLE);
+                case "scheduled":
+                    holder.tvStatus.setBackgroundResource(R.drawable.status_green);
+                    break;
 
+                case "rejected":
+                    holder.tvStatus.setBackgroundResource(R.drawable.status_red);
+                    break;
+
+                case "completed":
+                    holder.tvStatus.setBackgroundResource(R.drawable.status_blue);
+                    break;
+
+                case "hired":
+                    holder.tvStatus.setBackgroundResource(R.drawable.status_green);
+                    break;
+
+                default:
+                    holder.tvStatus.setBackgroundResource(R.drawable.status_gray);
+                    break;
+            }
+
+            holder.btnManageInterview.setText("Reschedule");
         } else {
 
             holder.tvDate.setText("Date : Not Scheduled");
             holder.tvTime.setText("Time : Not Scheduled");
             holder.tvMode.setText("Mode : Not Scheduled");
+            holder.tvMeetingLink.setText(
+                    "Meeting Link : N/A"
+            );
+
+            holder.tvLocation.setText(
+                    "Location : N/A"
+            );
 
             holder.tvStatus.setText("UNSCHEDULED");
             holder.tvStatus.setBackgroundResource(R.drawable.status_red);
 
-            holder.btnManageInterview.setText("Schedule Interview");
-
-            holder.btnCompleteInterview.setVisibility(View.GONE);
-            holder.btnRejectInterview.setVisibility(View.GONE);
+            holder.btnManageInterview.setText("Schedule");
         }
 
+        // Hide buttons by default
+        holder.btnManageInterview.setVisibility(View.GONE);
+        holder.btnCompleteInterview.setVisibility(View.GONE);
+        holder.btnRejectInterview.setVisibility(View.GONE);
+
+        // Check Logged In User Role
+        String currentUid =
+                FirebaseManager.getAuth()
+                        .getCurrentUser()
+                        .getUid();
+
+        FirebaseManager.getFirestore()
+                .collection("users")
+                .document(currentUid)
+                .get()
+                .addOnSuccessListener(document -> {
+
+                    String role = document.getString("role");
+
+                    if ("candidate".equals(role)) {
+
+                        // Candidate sirf details dekhega
+
+                        holder.btnManageInterview.setVisibility(View.GONE);
+                        holder.btnCompleteInterview.setVisibility(View.GONE);
+                        holder.btnRejectInterview.setVisibility(View.GONE);
+
+                    } else {
+
+                        // HR Controls
+
+                        holder.btnManageInterview.setVisibility(View.VISIBLE);
+
+                        if (scheduled) {
+
+                            holder.btnCompleteInterview.setVisibility(View.VISIBLE);
+                            holder.btnRejectInterview.setVisibility(View.VISIBLE);
+
+                        } else {
+
+                            holder.btnCompleteInterview.setVisibility(View.GONE);
+                            holder.btnRejectInterview.setVisibility(View.GONE);
+                        }
+                    }
+                });
+
+        // Schedule / Reschedule Interview
         holder.btnManageInterview.setOnClickListener(v -> {
 
             Intent intent = new Intent(
@@ -105,39 +192,18 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
                     ScheduleInterviewActivity.class
             );
 
-            intent.putExtra(
-                    "applicationId",
-                    interview.getApplicationId()
-            );
-
-            intent.putExtra(
-                    "candidateId",
-                    interview.getCandidateId()
-            );
-
-            intent.putExtra(
-                    "candidateName",
-                    interview.getCandidateName()
-            );
-
-            intent.putExtra(
-                    "jobId",
-                    interview.getJobId()
-            );
-
-            intent.putExtra(
-                    "hrId",
-                    interview.getHrId()
-            );
-
-            intent.putExtra(
-                    "jobTitle",
-                    interview.getJobTitle()
-            );
+            intent.putExtra("applicationId", interview.getApplicationId());
+            intent.putExtra("candidateId", interview.getCandidateId());
+            intent.putExtra("candidateName", interview.getCandidateName());
+            intent.putExtra("jobId", interview.getJobId());
+            intent.putExtra("hrId", interview.getHrId());
+            intent.putExtra("jobTitle", interview.getJobTitle());
 
             context.startActivity(intent);
+
         });
 
+        // Complete Interview
         holder.btnCompleteInterview.setOnClickListener(v -> {
 
             FirebaseManager.getFirestore()
@@ -153,49 +219,36 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
                     SendOfferActivity.class
             );
 
-            intent.putExtra(
-                    "applicationId",
-                    interview.getApplicationId()
-            );
-
-            intent.putExtra(
-                    "candidateId",
-                    interview.getCandidateId()
-            );
-
-            intent.putExtra(
-                    "hrId",
-                    interview.getHrId()
-            );
-
-            intent.putExtra(
-                    "jobTitle",
-                    interview.getJobTitle()
-            );
-            intent.putExtra(
-                    "candidateName",
-                    interview.getCandidateName()
-            );
-
-            intent.putExtra(
-                    "jobId",
-                    interview.getJobId()
-            );
+            intent.putExtra("applicationId", interview.getApplicationId());
+            intent.putExtra("candidateId", interview.getCandidateId());
+            intent.putExtra("candidateName", interview.getCandidateName());
+            intent.putExtra("jobId", interview.getJobId());
+            intent.putExtra("hrId", interview.getHrId());
+            intent.putExtra("jobTitle", interview.getJobTitle());
 
             context.startActivity(intent);
+
         });
 
-        holder.btnRejectInterview.setOnClickListener(v ->
+        holder.btnRejectInterview.setOnClickListener(v -> {
 
-                FirebaseManager.getFirestore()
-                        .collection("applications")
-                        .document(interview.getApplicationId())
-                        .update(
-                                "applicationStatus", "Rejected",
-                                "currentStage", "Closed"
-                        )
+            FirebaseManager.getFirestore()
+                    .collection("applications")
+                    .document(interview.getApplicationId())
+                    .update(
+                            "applicationStatus","Rejected",
+                            "currentStage","Closed"
+                    );
 
-        );
+            FirebaseManager.getFirestore()
+                    .collection("interviews")
+                    .document(interview.getInterviewId())
+                    .update(
+                            "status","Rejected"
+                    );
+
+        });
+
     }
 
     @Override
@@ -211,6 +264,8 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
         TextView tvTime;
         TextView tvMode;
         TextView tvStatus;
+        TextView tvMeetingLink;
+        TextView tvLocation;
 
         Button btnManageInterview;
         Button btnCompleteInterview;
@@ -225,7 +280,13 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
             tvTime = itemView.findViewById(R.id.tvTime);
             tvMode = itemView.findViewById(R.id.tvMode);
             tvStatus = itemView.findViewById(R.id.tvStatus);
+            tvMeetingLink = itemView.findViewById(
+                            R.id.tvMeetingLink
+                    );
 
+            tvLocation = itemView.findViewById(
+                            R.id.tvLocation
+                    );
             btnManageInterview = itemView.findViewById(R.id.btnManageInterview);
             btnCompleteInterview = itemView.findViewById(R.id.btnCompleteInterview);
             btnRejectInterview = itemView.findViewById(R.id.btnRejectInterview);

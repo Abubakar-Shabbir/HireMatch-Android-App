@@ -17,6 +17,12 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
     private TextView tvAppliedAt;
 
     private String applicationId;
+    private TextView tvLocation;
+    private TextView tvSalary;
+    private TextView tvEmploymentType;
+    private TextView tvExperience;
+    private TextView tvEducation;
+    private TextView tvSkills;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,7 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
                 findViewById(
                         R.id.tvAppliedAt
                 );
+
     }
 
     private void loadApplicationDetails() {
