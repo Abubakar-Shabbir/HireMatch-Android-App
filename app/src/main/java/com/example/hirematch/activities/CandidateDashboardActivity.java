@@ -149,29 +149,23 @@ public class CandidateDashboardActivity
 
                     if (document.exists()) {
 
+                        System.out.println("Document Data = " + document.getData());
+
                         CandidateProfile profile =
-                                document.toObject(
-                                        CandidateProfile.class
-                                );
+                                document.toObject(CandidateProfile.class);
 
                         if (profile != null) {
 
-                            tvCandidateName.setText(
-                                    "Welcome, " + profile.getName()
-                            );
+                            System.out.println("Profile Score = " + profile.getProfileScore());
+                            System.out.println("ATS Score = " + profile.getAtsScore());
 
-                            int score =
-                                    profile.getProfileScore();
+                            tvCandidateName.setText("Welcome, " + profile.getName());
 
-                            tvProfileScore.setText(
-                                    score + "%"
-                            );
+                            tvProfileScore.setText(profile.getProfileScore() + "%");
 
-                            progressProfile.setProgress(score);
+                            progressProfile.setProgress(profile.getProfileScore());
 
-                            tvATSScore.setText(
-                                    profile.getProfileScore() + "%"
-                            );
+                            tvATSScore.setText(profile.getAtsScore() + "%");
                         }
                     }
                 });

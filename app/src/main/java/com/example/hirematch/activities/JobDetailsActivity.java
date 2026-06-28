@@ -12,15 +12,20 @@ import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.models.Application;
 import com.example.hirematch.models.Job;
 
-public class JobDetailsActivity
-        extends AppCompatActivity {
+public class JobDetailsActivity extends AppCompatActivity {
 
     private TextView tvTitle;
     private TextView tvDescription;
-    private TextView tvSkills;
-    private TextView tvExperience;
-    private TextView tvLocation;
+    private TextView tvJobType;
+    private TextView tvWorkMode;
     private TextView tvSalary;
+    private TextView tvLocation;
+    private TextView tvExperience;
+    private TextView tvSkills;
+    private TextView tvEducation;
+    private TextView tvVacancies;
+    private TextView tvDeadline;
+    private TextView tvBenefits;
 
     private Button btnApply;
 
@@ -36,21 +41,27 @@ public class JobDetailsActivity
 
         jobId = getIntent().getStringExtra("jobId");
 
-        loadJob(jobId);
+        if (jobId != null) {
+            loadJob(jobId);
+        }
 
-        btnApply.setOnClickListener(v ->
-                applyJob()
-        );
+        btnApply.setOnClickListener(v -> applyJob());
     }
 
     private void initViews() {
 
         tvTitle = findViewById(R.id.tvTitle);
         tvDescription = findViewById(R.id.tvDescription);
-        tvSkills = findViewById(R.id.tvSkills);
-        tvExperience = findViewById(R.id.tvExperience);
-        tvLocation = findViewById(R.id.tvLocation);
+        tvJobType = findViewById(R.id.tvJobType);
+        tvWorkMode = findViewById(R.id.tvWorkMode);
         tvSalary = findViewById(R.id.tvSalary);
+        tvLocation = findViewById(R.id.tvLocation);
+        tvExperience = findViewById(R.id.tvExperience);
+        tvSkills = findViewById(R.id.tvSkills);
+        tvEducation = findViewById(R.id.tvEducation);
+        tvVacancies = findViewById(R.id.tvVacancies);
+        tvDeadline = findViewById(R.id.tvDeadline);
+        tvBenefits = findViewById(R.id.tvBenefits);
 
         btnApply = findViewById(R.id.btnApply);
     }
@@ -63,45 +74,91 @@ public class JobDetailsActivity
                 .get()
                 .addOnSuccessListener(document -> {
 
-                    currentJob =
-                            document.toObject(Job.class);
+                    currentJob = document.toObject(Job.class);
 
-                    if (currentJob != null) {
+                    if (currentJob == null)
+                        return;
 
-                        tvTitle.setText(
-                                currentJob.getJobTitle()
-                        );
+                    tvTitle.setText(
+                            currentJob.getJobTitle()
+                    );
 
-                        tvDescription.setText(
-                                currentJob.getJobDescription()
-                        );
+                    tvDescription.setText(
+                            currentJob.getJobDescription()
+                    );
 
-                        tvSkills.setText(
-                                "Skills: " +
-                                        currentJob.getRequiredSkills()
-                        );
+                    tvJobType.setText(
+                            "Job Type : "
+                                    + currentJob.getJobType()
+                    );
 
-                        tvExperience.setText(
-                                "Experience: " +
-                                        currentJob.getExperienceLevel()
-                        );
+                    tvWorkMode.setText(
+                            "Work Mode : "
+                                    + currentJob.getWorkMode()
+                    );
 
-                        tvLocation.setText(
-                                "Location: " +
-                                        currentJob.getLocation()
-                        );
+                    tvSalary.setText(
+                            "Salary : "
+                                    + currentJob.getSalaryMin()
+                                    + " - "
+                                    + currentJob.getSalaryMax()
+                    );
 
-                        tvSalary.setText(
-                                "Salary: " +
-                                        currentJob.getSalaryMin()
-                                        + " - " +
-                                        currentJob.getSalaryMax()
-                        );
-                    }
-                });
+                    tvLocation.setText(
+                            "Location : "
+                                    + currentJob.getLocation()
+                    );
+
+                    tvExperience.setText(
+                            "Experience : "
+                                    + currentJob.getExperienceLevel()
+                    );
+
+                    tvSkills.setText(
+                            "Required Skills\n\n"
+                                    + currentJob.getRequiredSkills()
+                    );
+
+                    tvEducation.setText(
+                            "Education Requirement\n\n"
+                                    + currentJob.getEducationRequirement()
+                    );
+
+                    tvVacancies.setText(
+                            "Vacancies : "
+                                    + currentJob.getVacancies()
+                    );
+
+                    tvDeadline.setText(
+                            "Application Deadline : "
+                                    + currentJob.getDeadline()
+                    );
+
+                    tvBenefits.setText(
+                            "Benefits\n\n"
+                                    + currentJob.getBenefits()
+                    );
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(
+                                this,
+                                "Failed to load job.",
+                                Toast.LENGTH_SHORT
+                        ).show());
     }
 
     private void applyJob() {
+
+        if (currentJob == null) {
+
+            Toast.makeText(
+                    this,
+                    "Job not loaded yet.",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
 
         String applicationId =
                 FirebaseManager.getFirestore()
@@ -183,9 +240,17 @@ public class JobDetailsActivity
 
                                     Toast.makeText(
                                             this,
-                                            "Applied Successfully | ATS Score: "
+                                            "Application Submitted Successfully\nATS Score : "
                                                     + atsScore + "%",
                                             Toast.LENGTH_LONG
+                                    ).show()
+                            )
+                            .addOnFailureListener(e ->
+
+                                    Toast.makeText(
+                                            this,
+                                            "Failed to apply.",
+                                            Toast.LENGTH_SHORT
                                     ).show()
                             );
                 });
@@ -196,7 +261,10 @@ public class JobDetailsActivity
             String jobSkills) {
 
         if (candidateSkills == null ||
-                jobSkills == null) {
+                jobSkills == null ||
+                candidateSkills.isEmpty() ||
+                jobSkills.isEmpty()) {
+
             return 0;
         }
 
@@ -209,12 +277,13 @@ public class JobDetailsActivity
         int matched = 0;
 
         for (String jobSkill : jobArray) {
+
             for (String candidateSkill : candidateArray) {
 
-                if (jobSkill.trim().equals(
-                        candidateSkill.trim()
-                )) {
+                if (jobSkill.trim().equals(candidateSkill.trim())) {
+
                     matched++;
+                    break;
                 }
             }
         }

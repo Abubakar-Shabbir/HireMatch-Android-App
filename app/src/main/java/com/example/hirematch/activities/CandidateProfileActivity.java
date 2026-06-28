@@ -139,13 +139,14 @@ public class CandidateProfileActivity
                         )
                 );
 
+// Calculate score BEFORE saving
+        calculateProfileScore(profile);
+
         FirebaseManager.getFirestore()
                 .collection("candidate_profiles")
                 .document(uid)
                 .set(profile)
                 .addOnSuccessListener(unused -> {
-
-                    calculateProfileScore(profile);
 
                     btnSaveProfile.setEnabled(true);
 
@@ -280,10 +281,15 @@ public class CandidateProfileActivity
         if (!profile.getPortfolio().isEmpty()) profileScore += 5;
         if (!profile.getPreferredJobType().isEmpty()) profileScore += 5;
 
-        tvProfileProgress.setText(
-                profileScore + "% Completed"
-        );
+        tvProfileProgress.setText(profileScore + "% Completed");
 
         progressProfile.setProgress(profileScore);
+
+        if(profileScore > 100){
+            profileScore = 100;
+        }
+
+        profile.setProfileScore(profileScore);
+        profile.setAtsScore(profileScore);
     }
 }

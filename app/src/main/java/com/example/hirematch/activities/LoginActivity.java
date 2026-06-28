@@ -27,34 +27,63 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Auto Login
+        if (FirebaseManager.getAuth().getCurrentUser() != null) {
+
+            String uid = FirebaseManager.getAuth()
+                    .getCurrentUser()
+                    .getUid();
+
+            FirebaseManager.getFirestore()
+                    .collection("users")
+                    .document(uid)
+                    .get()
+                    .addOnSuccessListener(document -> {
+
+                        if (document.exists()) {
+
+                            String role = document.getString("role");
+
+                            if ("candidate".equals(role)) {
+
+                                startActivity(new Intent(
+                                        LoginActivity.this,
+                                        CandidateDashboardActivity.class));
+
+                            } else if ("hr".equals(role)) {
+
+                                startActivity(new Intent(
+                                        LoginActivity.this,
+                                        HRDashboardActivity.class));
+                            }
+
+                            finish();
+                        }
+                    });
+
+            return;
+        }
+
+        // Views
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
 
         btnLogin = findViewById(R.id.btnLogin);
 
-        tvForgotPassword =
-                findViewById(R.id.tvForgotPassword);
-
-        tvRegister =
-                findViewById(R.id.tvRegister);
+        tvForgotPassword = findViewById(R.id.tvForgotPassword);
+        tvRegister = findViewById(R.id.tvRegister);
 
         btnLogin.setOnClickListener(v -> loginUser());
 
         tvRegister.setOnClickListener(v ->
-                startActivity(
-                        new Intent(
-                                this,
-                                RegisterActivity.class
-                        )
-                ));
+                startActivity(new Intent(
+                        this,
+                        RegisterActivity.class)));
 
         tvForgotPassword.setOnClickListener(v ->
-                startActivity(
-                        new Intent(
-                                this,
-                                ForgotPasswordActivity.class
-                        )
-                ));
+                startActivity(new Intent(
+                        this,
+                        ForgotPasswordActivity.class)));
     }
 
     private void loginUser() {

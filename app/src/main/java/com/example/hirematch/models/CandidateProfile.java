@@ -9,6 +9,8 @@ public class CandidateProfile {
     private String phone;
     private String city;
 
+    private int atsScore;
+
     private String title;
     private String about;
 
@@ -97,6 +99,19 @@ public class CandidateProfile {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+
+    public void setProfileScore(int profileScore) {
+        this.profileScore = profileScore;
+    }
+
+    public int getAtsScore() {
+        return atsScore;
+    }
+
+    public void setAtsScore(int atsScore) {
+        this.atsScore = atsScore;
+    }
 
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }

@@ -183,4 +183,76 @@ public class Job {
     public String getSalary() {
         return salaryMin + " - " + salaryMax;
     }
+
+    public void setHrId(String hrId) {
+        this.hrId = hrId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public void setJobDescription(String jobDescription) {
+        this.jobDescription = jobDescription;
+    }
+
+    public void setJobType(String jobType) {
+        this.jobType = jobType;
+    }
+
+    public void setWorkMode(String workMode) {
+        this.workMode = workMode;
+    }
+
+    public void setSalaryMin(String salaryMin) {
+        this.salaryMin = salaryMin;
+    }
+
+    public void setSalaryMax(String salaryMax) {
+        this.salaryMax = salaryMax;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setExperienceLevel(String experienceLevel) {
+        this.experienceLevel = experienceLevel;
+    }
+
+    public void setRequiredSkills(String requiredSkills) {
+        this.requiredSkills = requiredSkills;
+    }
+
+    public void setEducationRequirement(String educationRequirement) {
+        this.educationRequirement = educationRequirement;
+    }
+
+    public void setVacancies(String vacancies) {
+        this.vacancies = vacancies;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
+
+    public void setBenefits(String benefits) {
+        this.benefits = benefits;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 }
