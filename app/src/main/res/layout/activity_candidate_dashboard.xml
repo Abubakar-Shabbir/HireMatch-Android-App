@@ -50,12 +50,33 @@
 
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnNotifications"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/button_primary"
-                    android:text="0" />
+                <FrameLayout
+                    android:layout_width="55dp"
+                    android:layout_height="55dp">
+
+                    <ImageButton
+                        android:id="@+id/btnNotifications"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/button_primary"
+                        android:src="@drawable/ic_notifications"
+                        android:padding="10dp"
+                        android:scaleType="centerInside"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvNotificationBadge"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="top|end"
+                        android:background="@drawable/badge_bg"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@android:color/white"
+                        android:textSize="10sp"
+                        android:textStyle="bold"/>
+                </FrameLayout>
 
             </LinearLayout>
 

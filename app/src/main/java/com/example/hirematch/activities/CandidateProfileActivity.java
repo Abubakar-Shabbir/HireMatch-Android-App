@@ -138,9 +138,12 @@ public class CandidateProfileActivity
                                 System.currentTimeMillis()
                         )
                 );
-
+        System.out.println("PROFILE SCORE = " + profile.getProfileScore());
 // Calculate score BEFORE saving
         calculateProfileScore(profile);
+        Toast.makeText(this,
+                "Score = " + profile.getProfileScore(),
+                Toast.LENGTH_LONG).show();
 
         FirebaseManager.getFirestore()
                 .collection("candidate_profiles")
@@ -280,14 +283,14 @@ public class CandidateProfileActivity
         if (!profile.getProjects().isEmpty()) profileScore += 5;
         if (!profile.getPortfolio().isEmpty()) profileScore += 5;
         if (!profile.getPreferredJobType().isEmpty()) profileScore += 5;
-
+        if(profileScore > 100){
+            profileScore = 100;
+        }
         tvProfileProgress.setText(profileScore + "% Completed");
 
         progressProfile.setProgress(profileScore);
 
-        if(profileScore > 100){
-            profileScore = 100;
-        }
+
 
         profile.setProfileScore(profileScore);
         profile.setAtsScore(profileScore);

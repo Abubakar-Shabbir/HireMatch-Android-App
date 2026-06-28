@@ -14,18 +14,20 @@ import com.example.hirematch.R;
 import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.models.Company;
 import com.example.hirematch.utils.SharedPrefManager;
+import android.view.View;
+import android.widget.ImageButton;
 
 public class HRDashboardActivity
         extends AppCompatActivity {
 
     private LinearLayout btnCompanyProfile;
-
+    private ImageButton btnNotifications;
+    private TextView tvNotificationBadge;
     private Button btnCreateJob;
     private Button btnMyJobs;
     private Button btnApplicants;
     private Button btnInterviews;
     private Button btnOffers;
-    private Button btnNotifications;
     private Button btnLogout;
 
     private TextView tvCompanyName;
@@ -64,6 +66,7 @@ public class HRDashboardActivity
 
         loadCompanyStatus();
         loadAnalytics();
+        loadNotificationsCount();
     }
 
     private void initViews() {
@@ -115,6 +118,7 @@ public class HRDashboardActivity
 
         progressCompany =
                 findViewById(R.id.progressCompany);
+        tvNotificationBadge = findViewById(R.id.tvNotificationBadge);
     }
 
     private void setupListeners() {
@@ -238,6 +242,26 @@ public class HRDashboardActivity
 
                         calculateCompanyScore(company);
                     }
+                });
+    }
+    private void loadNotificationsCount() {
+
+        FirebaseManager.getFirestore()
+                .collection("notifications")
+                .whereEqualTo("userId", hrId)
+                .whereEqualTo("isRead", false)
+                .get()
+                .addOnSuccessListener(query -> {
+
+                    int count = query.size();
+
+                    if (count > 0) {
+                        tvNotificationBadge.setVisibility(View.VISIBLE);
+                        tvNotificationBadge.setText(String.valueOf(count));
+                    } else {
+                        tvNotificationBadge.setVisibility(View.GONE);
+                    }
+
                 });
     }
 
@@ -373,5 +397,6 @@ public class HRDashboardActivity
 
         loadCompanyStatus();
         loadAnalytics();
+        loadNotificationsCount();
     }
 }

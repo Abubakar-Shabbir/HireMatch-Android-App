@@ -6,23 +6,27 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hirematch.R;
 import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.models.CandidateProfile;
-
+import android.widget.ImageButton;
+import android.view.View;
 public class CandidateDashboardActivity
         extends AppCompatActivity {
 
     private LinearLayout btnProfile;
+    private boolean isProfileComplete = false;
     private LinearLayout btnMyApplications;
     private LinearLayout btnMyInterviews;
     private LinearLayout btnMyOffers;
     private LinearLayout btnATS;
+    private ImageButton btnNotifications;
+    private TextView tvNotificationBadge;
 
-    private Button btnNotifications;
     private Button btnResume;
     private Button btnJobs;
     private Button btnLogout;
@@ -69,7 +73,7 @@ public class CandidateDashboardActivity
         btnMyInterviews = findViewById(R.id.btnMyInterviews);
         btnMyOffers = findViewById(R.id.btnMyOffers);
         btnATS = findViewById(R.id.btnATS);
-
+        tvNotificationBadge = findViewById(R.id.tvNotificationBadge);
         btnNotifications = findViewById(R.id.btnNotifications);
         btnResume = findViewById(R.id.btnResume);
         btnJobs = findViewById(R.id.btnJobs);
@@ -87,46 +91,104 @@ public class CandidateDashboardActivity
 
     private void setupClicks() {
 
+        // Profile (Always Open)
         btnProfile.setOnClickListener(v ->
                 startActivity(new Intent(
                         this,
                         CandidateProfileActivity.class)));
 
-        btnResume.setOnClickListener(v ->
-                startActivity(new Intent(
-                        this,
-                        UploadResumeActivity.class)));
+        // Resume
+        btnResume.setOnClickListener(v -> {
 
-        btnJobs.setOnClickListener(v ->
-                startActivity(new Intent(
-                        this,
-                        JobListingActivity.class)));
+            if (!isProfileComplete) {
+                showProfileLockMessage();
+                return;
+            }
 
-        btnMyApplications.setOnClickListener(v ->
-                startActivity(new Intent(
-                        this,
-                        MyApplicationsActivity.class)));
+            startActivity(new Intent(
+                    this,
+                    UploadResumeActivity.class));
+        });
 
-        btnMyInterviews.setOnClickListener(v ->
-                startActivity(new Intent(
-                        this,
-                        MyInterviewsActivity.class)));
+        // Browse Jobs
+        btnJobs.setOnClickListener(v -> {
 
-        btnMyOffers.setOnClickListener(v ->
-                startActivity(new Intent(
-                        this,
-                        MyOffersActivity.class)));
+            if (!isProfileComplete) {
+                showProfileLockMessage();
+                return;
+            }
 
-        btnNotifications.setOnClickListener(v ->
-                startActivity(new Intent(
-                        this,
-                        NotificationsActivity.class)));
+            startActivity(new Intent(
+                    this,
+                    JobListingActivity.class));
+        });
 
-        btnATS.setOnClickListener(v ->
-                startActivity(new Intent(
-                        this,
-                        ATSScoreActivity.class)));
+        // My Applications
+        btnMyApplications.setOnClickListener(v -> {
 
+            if (!isProfileComplete) {
+                showProfileLockMessage();
+                return;
+            }
+
+            startActivity(new Intent(
+                    this,
+                    MyApplicationsActivity.class));
+        });
+
+        // My Interviews
+        btnMyInterviews.setOnClickListener(v -> {
+
+            if (!isProfileComplete) {
+                showProfileLockMessage();
+                return;
+            }
+
+            startActivity(new Intent(
+                    this,
+                    MyInterviewsActivity.class));
+        });
+
+        // My Offers
+        btnMyOffers.setOnClickListener(v -> {
+
+            if (!isProfileComplete) {
+                showProfileLockMessage();
+                return;
+            }
+
+            startActivity(new Intent(
+                    this,
+                    MyOffersActivity.class));
+        });
+
+        // Notifications
+        btnNotifications.setOnClickListener(v -> {
+
+            if (!isProfileComplete) {
+                showProfileLockMessage();
+                return;
+            }
+
+            startActivity(new Intent(
+                    this,
+                    NotificationsActivity.class));
+        });
+
+        // ATS Score
+        btnATS.setOnClickListener(v -> {
+
+            if (!isProfileComplete) {
+                showProfileLockMessage();
+                return;
+            }
+
+            startActivity(new Intent(
+                    this,
+                    ATSScoreActivity.class));
+        });
+
+        // Logout (Always Open)
         btnLogout.setOnClickListener(v -> {
 
             FirebaseManager.getAuth().signOut();
@@ -139,6 +201,14 @@ public class CandidateDashboardActivity
         });
     }
 
+    private void showProfileLockMessage() {
+
+        Toast.makeText(
+                this,
+                "Complete your profile to 100% first.",
+                Toast.LENGTH_SHORT
+        ).show();
+    }
     private void loadProfile() {
 
         FirebaseManager.getFirestore()
@@ -156,8 +226,9 @@ public class CandidateDashboardActivity
 
                         if (profile != null) {
 
-                            System.out.println("Profile Score = " + profile.getProfileScore());
-                            System.out.println("ATS Score = " + profile.getAtsScore());
+//                            Toast.makeText(this,
+//                                    "Firestore Score = " + profile.getProfileScore(),
+//                                    Toast.LENGTH_LONG).show();
 
                             tvCandidateName.setText("Welcome, " + profile.getName());
 
@@ -166,11 +237,45 @@ public class CandidateDashboardActivity
                             progressProfile.setProgress(profile.getProfileScore());
 
                             tvATSScore.setText(profile.getAtsScore() + "%");
+                            int score = profile.getProfileScore();
+
+
+                            isProfileComplete = score >= 100;
+
+                            updateButtonState();
                         }
                     }
                 });
     }
+    private void updateButtonState() {
 
+        btnProfile.setEnabled(true);
+        btnProfile.setAlpha(1f);
+
+        btnLogout.setEnabled(true);
+        btnLogout.setAlpha(1f);
+
+        btnResume.setEnabled(isProfileComplete);
+        btnResume.setAlpha(isProfileComplete ? 1f : 0.4f);
+
+        btnJobs.setEnabled(isProfileComplete);
+        btnJobs.setAlpha(isProfileComplete ? 1f : 0.4f);
+
+        btnMyApplications.setEnabled(isProfileComplete);
+        btnMyApplications.setAlpha(isProfileComplete ? 1f : 0.4f);
+
+        btnMyInterviews.setEnabled(isProfileComplete);
+        btnMyInterviews.setAlpha(isProfileComplete ? 1f : 0.4f);
+
+        btnMyOffers.setEnabled(isProfileComplete);
+        btnMyOffers.setAlpha(isProfileComplete ? 1f : 0.4f);
+
+        btnATS.setEnabled(isProfileComplete);
+        btnATS.setAlpha(isProfileComplete ? 1f : 0.4f);
+
+        btnNotifications.setEnabled(isProfileComplete);
+        btnNotifications.setAlpha(isProfileComplete ? 1f : 0.4f);
+    }
     private void loadApplicationsCount() {
 
         FirebaseManager.getFirestore()
@@ -214,9 +319,19 @@ public class CandidateDashboardActivity
                 .whereEqualTo("userId", uid)
                 .whereEqualTo("isRead", false)
                 .get()
-                .addOnSuccessListener(query ->
-                        btnNotifications.setText(
-                                String.valueOf(query.size())
-                        ));
-    }
-}
+                .addOnSuccessListener(query -> {
+
+                    int count = query.size();
+
+                    if (count > 0) {
+
+                        tvNotificationBadge.setVisibility(View.VISIBLE);
+                        tvNotificationBadge.setText(String.valueOf(count));
+
+                    } else {
+
+                        tvNotificationBadge.setVisibility(View.GONE);
+                    }
+
+                });
+    }}
