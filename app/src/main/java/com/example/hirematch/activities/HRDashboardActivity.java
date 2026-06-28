@@ -16,7 +16,7 @@ import com.example.hirematch.models.Company;
 import com.example.hirematch.utils.SharedPrefManager;
 import android.view.View;
 import android.widget.ImageButton;
-
+import com.example.hirematch.utils.LoadingManager;
 public class HRDashboardActivity
         extends AppCompatActivity {
 
@@ -50,7 +50,7 @@ public class HRDashboardActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hr_dashboard);
-
+        LoadingManager.show(this);
         if (FirebaseManager.getAuth().getCurrentUser() == null) {
             finish();
             return;
@@ -219,7 +219,7 @@ public class HRDashboardActivity
                 .document(hrId)
                 .get()
                 .addOnSuccessListener(document -> {
-
+                    LoadingManager.hide();
                     if (!document.exists()) {
                         updateCompanyUI();
                         return;

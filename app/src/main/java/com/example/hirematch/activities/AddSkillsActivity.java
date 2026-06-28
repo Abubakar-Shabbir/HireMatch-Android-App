@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hirematch.R;
 import com.example.hirematch.firebase.FirebaseManager;
+import com.example.hirematch.utils.LoadingManager;
 
 public class AddSkillsActivity extends AppCompatActivity {
 

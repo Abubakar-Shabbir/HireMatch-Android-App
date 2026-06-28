@@ -17,7 +17,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-
+import com.example.hirematch.utils.LoadingManager;
 public class MyInterviewsActivity extends AppCompatActivity {
 
     private RecyclerView rvInterviews;
@@ -33,7 +33,7 @@ public class MyInterviewsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_interviews);
-
+        LoadingManager.show(this);
         rvInterviews = findViewById(R.id.rvInterviews);
         tvEmptyState = findViewById(R.id.tvEmptyState);
 
@@ -56,7 +56,7 @@ public class MyInterviewsActivity extends AppCompatActivity {
                     .document(currentUserId)
                     .get()
                     .addOnSuccessListener(document -> {
-
+                        LoadingManager.hide();
                         if (document.exists()) {
 
                             role = document.getString("role");

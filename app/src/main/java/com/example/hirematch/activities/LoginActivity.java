@@ -14,7 +14,7 @@ import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.utils.SharedPrefManager;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
-
+import com.example.hirematch.utils.LoadingManager;
 public class LoginActivity extends AppCompatActivity {
 
 
@@ -93,14 +93,14 @@ public class LoginActivity extends AppCompatActivity {
 
         String password =
                 etPassword.getText().toString().trim();
-
+        LoadingManager.show(this);
         FirebaseManager.getAuth()
                 .signInWithEmailAndPassword(
                         email,
                         password
                 )
                 .addOnCompleteListener(task -> {
-
+                    LoadingManager.hide();
                     if (task.isSuccessful()) {
 
                         FirebaseUser user =

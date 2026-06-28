@@ -1,5 +1,5 @@
 package com.example.hirematch.activities;
-
+import com.example.hirematch.utils.LoadingManager;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.widget.Button;
@@ -37,7 +37,7 @@ public class CompanyProfileActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_profile);
-
+        LoadingManager.show(this);
         hrId = FirebaseManager.getAuth()
                 .getCurrentUser()
                 .getUid();
@@ -133,13 +133,14 @@ public class CompanyProfileActivity
                         "",
                         String.valueOf(System.currentTimeMillis())
                 );
+        LoadingManager.show(this);
 
         FirebaseManager.getFirestore()
                 .collection("companies")
                 .document(hrId)
                 .set(company)
                 .addOnSuccessListener(unused -> {
-
+                    LoadingManager.hide();
                     calculateCompanyScore(company);
 
                     btnSaveCompany.setEnabled(true);
@@ -182,7 +183,7 @@ public class CompanyProfileActivity
                 .document(hrId)
                 .get()
                 .addOnSuccessListener(document -> {
-
+                    LoadingManager.hide();
                     if (document.exists()) {
 
                         Company company =

@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hirematch.R;
 import com.example.hirematch.firebase.FirebaseManager;
-
+import com.example.hirematch.utils.LoadingManager;
 public class ATSScoreActivity extends AppCompatActivity {
 
     private TextView tvOverallScore;
@@ -23,10 +23,11 @@ public class ATSScoreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ats_score);
-
+        LoadingManager.show(this);
         initViews();
 
         calculateATS();
+        LoadingManager.hide();
     }
 
     private void initViews() {

@@ -188,7 +188,6 @@ public class JobDetailsActivity extends AppCompatActivity {
 
                     String resumeUrl =
                             document.getString("resumeUrl");
-
                     String candidateSkills =
                             document.getString("skills");
 
@@ -201,7 +200,14 @@ public class JobDetailsActivity extends AppCompatActivity {
                                     jobSkills
                             );
 
-                    int profileScore = 80;
+                    Long profileScoreLong =
+                            document.getLong("profileScore");
+
+                    int profileScore = 0;
+
+                    if (profileScoreLong != null) {
+                        profileScore = profileScoreLong.intValue();
+                    }
 
                     Application application =
                             new Application(

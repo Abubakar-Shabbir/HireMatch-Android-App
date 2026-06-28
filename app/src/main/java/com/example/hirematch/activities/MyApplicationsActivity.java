@@ -13,7 +13,7 @@ import com.example.hirematch.models.Application;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
-
+import com.example.hirematch.utils.LoadingManager;
 public class MyApplicationsActivity extends AppCompatActivity {
 
 
@@ -26,7 +26,7 @@ public class MyApplicationsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_applications);
-
+        LoadingManager.show(this);
         rvApplications =
                 findViewById(
                         R.id.rvApplications
@@ -65,7 +65,7 @@ public class MyApplicationsActivity extends AppCompatActivity {
                 )
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-
+                    LoadingManager.hide();
                     applicationList.clear();
 
                     for (DocumentSnapshot doc :

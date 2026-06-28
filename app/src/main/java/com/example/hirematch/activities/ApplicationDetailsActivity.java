@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hirematch.R;
 import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.models.Application;
-
+import com.example.hirematch.utils.LoadingManager;
 public class ApplicationDetailsActivity extends AppCompatActivity {
 
     private TextView tvJobTitle;
@@ -28,7 +28,7 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_details);
-
+        LoadingManager.show(this);
         initViews();
 
         applicationId =
@@ -37,6 +37,7 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
                 );
 
         loadApplicationDetails();
+        LoadingManager.hide();
     }
 
     private void initViews() {

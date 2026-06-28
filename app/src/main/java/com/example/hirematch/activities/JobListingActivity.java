@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-
+import com.example.hirematch.utils.LoadingManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,9 +48,8 @@ public class JobListingActivity extends AppCompatActivity {
         );
 
         rvJobs.setAdapter(adapter);
-
+        LoadingManager.show(this);
         loadJobs();
-
         setupSearch();
         setupLocationFilter();
     }
@@ -76,7 +75,7 @@ public class JobListingActivity extends AppCompatActivity {
                 .whereEqualTo("status", "Open")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-
+                    LoadingManager.hide();
                     jobList.clear();
                     filteredList.clear();
 

@@ -16,7 +16,7 @@ import com.example.hirematch.models.Notification;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
+import com.example.hirematch.utils.LoadingManager;
 public class ApplicantDetailsActivity
         extends AppCompatActivity {
 
@@ -42,7 +42,7 @@ public class ApplicantDetailsActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applicant_details);
-
+        LoadingManager.show(this);
         applicationId =
                 getIntent().getStringExtra("applicationId");
 
@@ -67,6 +67,7 @@ public class ApplicantDetailsActivity
 
         initViews();
         loadApplicant();
+        LoadingManager.hide();
     }
 
     private void initViews() {

@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.example.hirematch.utils.LoadingManager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hirematch.R;
@@ -15,6 +15,11 @@ import com.example.hirematch.firebase.FirebaseManager;
 import com.example.hirematch.models.CandidateProfile;
 import android.widget.ImageButton;
 import android.view.View;
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+
 public class CandidateDashboardActivity
         extends AppCompatActivity {
 
@@ -58,6 +63,8 @@ public class CandidateDashboardActivity
 
         initViews();
         setupClicks();
+        LoadingManager.show(this);
+
 
         loadProfile();
         loadApplicationsCount();
@@ -214,37 +221,36 @@ public class CandidateDashboardActivity
         FirebaseManager.getFirestore()
                 .collection("candidate_profiles")
                 .document(uid)
-                .get()
-                .addOnSuccessListener(document -> {
+                .addSnapshotListener((document, error) -> {
 
-                    if (document.exists()) {
+                    LoadingManager.hide();
 
-                        System.out.println("Document Data = " + document.getData());
-
-                        CandidateProfile profile =
-                                document.toObject(CandidateProfile.class);
-
-                        if (profile != null) {
-
-//                            Toast.makeText(this,
-//                                    "Firestore Score = " + profile.getProfileScore(),
-//                                    Toast.LENGTH_LONG).show();
-
-                            tvCandidateName.setText("Welcome, " + profile.getName());
-
-                            tvProfileScore.setText(profile.getProfileScore() + "%");
-
-                            progressProfile.setProgress(profile.getProfileScore());
-
-                            tvATSScore.setText(profile.getAtsScore() + "%");
-                            int score = profile.getProfileScore();
-
-
-                            isProfileComplete = score >= 100;
-
-                            updateButtonState();
-                        }
+                    if (error != null || document == null || !document.exists()) {
+                        return;
                     }
+
+                    CandidateProfile profile =
+                            document.toObject(CandidateProfile.class);
+
+                    if (profile == null)
+                        return;
+
+                    tvCandidateName.setText(
+                            "Welcome, " + profile.getName());
+
+                    tvProfileScore.setText(
+                            profile.getProfileScore() + "%");
+
+                    progressProfile.setProgress(
+                            profile.getProfileScore());
+
+                    tvATSScore.setText(
+                            profile.getAtsScore() + "%");
+
+                    isProfileComplete =
+                            profile.getProfileScore() >= 100;
+
+                    updateButtonState();
                 });
     }
     private void updateButtonState() {
@@ -281,11 +287,14 @@ public class CandidateDashboardActivity
         FirebaseManager.getFirestore()
                 .collection("applications")
                 .whereEqualTo("candidateId", uid)
-                .get()
-                .addOnSuccessListener(query ->
-                        tvApplicationsCount.setText(
-                                String.valueOf(query.size())
-                        ));
+                .addSnapshotListener((query, error) -> {
+
+                    if (error != null || query == null)
+                        return;
+
+                    tvApplicationsCount.setText(
+                            String.valueOf(query.size()));
+                });
     }
 
     private void loadInterviewsCount() {
@@ -293,11 +302,14 @@ public class CandidateDashboardActivity
         FirebaseManager.getFirestore()
                 .collection("interviews")
                 .whereEqualTo("candidateId", uid)
-                .get()
-                .addOnSuccessListener(query ->
-                        tvInterviewsCount.setText(
-                                String.valueOf(query.size())
-                        ));
+                .addSnapshotListener((query, error) -> {
+
+                    if (error != null || query == null)
+                        return;
+
+                    tvInterviewsCount.setText(
+                            String.valueOf(query.size()));
+                });
     }
 
     private void loadOffersCount() {
@@ -305,11 +317,14 @@ public class CandidateDashboardActivity
         FirebaseManager.getFirestore()
                 .collection("offers")
                 .whereEqualTo("candidateId", uid)
-                .get()
-                .addOnSuccessListener(query ->
-                        tvOffersCount.setText(
-                                String.valueOf(query.size())
-                        ));
+                .addSnapshotListener((query, error) -> {
+
+                    if (error != null || query == null)
+                        return;
+
+                    tvOffersCount.setText(
+                            String.valueOf(query.size()));
+                });
     }
 
     private void loadNotificationsCount() {
@@ -318,20 +333,23 @@ public class CandidateDashboardActivity
                 .collection("notifications")
                 .whereEqualTo("userId", uid)
                 .whereEqualTo("isRead", false)
-                .get()
-                .addOnSuccessListener(query -> {
+                .addSnapshotListener((query, error) -> {
+
+                    if (error != null || query == null)
+                        return;
 
                     int count = query.size();
 
                     if (count > 0) {
 
                         tvNotificationBadge.setVisibility(View.VISIBLE);
-                        tvNotificationBadge.setText(String.valueOf(count));
+                        tvNotificationBadge.setText(
+                                String.valueOf(count));
 
                     } else {
 
                         tvNotificationBadge.setVisibility(View.GONE);
                     }
-
                 });
-    }}
+    }
+}

@@ -17,6 +17,7 @@ import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import android.widget.LinearLayout;
+import com.example.hirematch.utils.LoadingManager;
 public class MyOffersActivity extends AppCompatActivity {
 
     private RecyclerView rvOffers;
@@ -32,7 +33,7 @@ public class MyOffersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_offers);
-
+        LoadingManager.show(this);
         initViews();
         setupRecyclerView();
 
@@ -76,7 +77,7 @@ public class MyOffersActivity extends AppCompatActivity {
                 .document(currentUserId)
                 .get()
                 .addOnSuccessListener(document -> {
-
+                    LoadingManager.hide();
                     if (document.exists()) {
 
                         role = document.getString("role");

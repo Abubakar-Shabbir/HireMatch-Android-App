@@ -16,7 +16,7 @@ import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+import com.example.hirematch.utils.LoadingManager;
 public class ApplicantsActivity
         extends AppCompatActivity {
 
@@ -34,7 +34,7 @@ public class ApplicantsActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applicants);
-
+        LoadingManager.show(this);
         jobId =
                 getIntent().getStringExtra(
                         "jobId"
@@ -43,6 +43,7 @@ public class ApplicantsActivity
         initViews();
         setupRecycler();
         loadApplicants();
+        LoadingManager.hide();
     }
 
     private void initViews() {
