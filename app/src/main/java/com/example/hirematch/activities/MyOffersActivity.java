@@ -16,18 +16,17 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
-
-public class MyOffersActivity
-        extends AppCompatActivity {
+import android.widget.LinearLayout;
+public class MyOffersActivity extends AppCompatActivity {
 
     private RecyclerView rvOffers;
-    private TextView tvEmptyState;
+    private LinearLayout layoutEmpty;
 
     private ArrayList<Offer> offerList;
     private OfferAdapter adapter;
 
-    private String role;
     private String currentUserId;
+    private String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class MyOffersActivity
         setContentView(R.layout.activity_my_offers);
 
         initViews();
-        setupRecycler();
+        setupRecyclerView();
 
         if (FirebaseManager.getAuth().getCurrentUser() != null) {
 
@@ -44,29 +43,24 @@ public class MyOffersActivity
                             .getCurrentUser()
                             .getUid();
 
-            loadRoleAndOffers();
+            loadUserRole();
         }
     }
 
     private void initViews() {
 
-        rvOffers =
-                findViewById(R.id.rvOffers);
+        rvOffers = findViewById(R.id.rvOffers);
+        layoutEmpty = findViewById(R.id.layoutEmpty);
 
-        tvEmptyState =
-                findViewById(R.id.tvEmptyState);
-
-        offerList =
-                new ArrayList<>();
+        offerList = new ArrayList<>();
     }
 
-    private void setupRecycler() {
+    private void setupRecyclerView() {
 
-        adapter =
-                new OfferAdapter(
-                        this,
-                        offerList
-                );
+        adapter = new OfferAdapter(
+                this,
+                offerList
+        );
 
         rvOffers.setLayoutManager(
                 new LinearLayoutManager(this)
@@ -75,7 +69,7 @@ public class MyOffersActivity
         rvOffers.setAdapter(adapter);
     }
 
-    private void loadRoleAndOffers() {
+    private void loadUserRole() {
 
         FirebaseManager.getFirestore()
                 .collection("users")
@@ -85,8 +79,7 @@ public class MyOffersActivity
 
                     if (document.exists()) {
 
-                        role =
-                                document.getString("role");
+                        role = document.getString("role");
 
                         loadOffers();
                     }
@@ -99,42 +92,39 @@ public class MyOffersActivity
 
         if ("candidate".equals(role)) {
 
-            query =
-                    FirebaseManager.getFirestore()
-                            .collection("offers")
-                            .whereEqualTo(
-                                    "candidateId",
-                                    currentUserId
-                            );
+            query = FirebaseManager.getFirestore()
+                    .collection("offers")
+                    .whereEqualTo(
+                            "candidateId",
+                            currentUserId
+                    );
 
         } else {
 
-            query =
-                    FirebaseManager.getFirestore()
-                            .collection("offers")
-                            .whereEqualTo(
-                                    "hrId",
-                                    currentUserId
-                            );
+            query = FirebaseManager.getFirestore()
+                    .collection("offers")
+                    .whereEqualTo(
+                            "hrId",
+                            currentUserId
+                    );
         }
 
         query.get()
-                .addOnSuccessListener(snapshot -> {
+                .addOnSuccessListener(querySnapshot -> {
 
                     offerList.clear();
 
-                    for (DocumentSnapshot doc :
-                            snapshot.getDocuments()) {
+                    for (DocumentSnapshot document : querySnapshot.getDocuments()) {
 
                         Offer offer =
-                                doc.toObject(
+                                document.toObject(
                                         Offer.class
                                 );
 
                         if (offer != null) {
 
                             offer.setOfferId(
-                                    doc.getId()
+                                    document.getId()
                             );
 
                             offerList.add(
@@ -144,35 +134,33 @@ public class MyOffersActivity
                     }
 
                     adapter.notifyDataSetChanged();
-
-                    if (offerList.isEmpty()) {
-
-                        tvEmptyState.setVisibility(
-                                View.VISIBLE
-                        );
-
-                        rvOffers.setVisibility(
-                                View.GONE
-                        );
-
-                    } else {
-
-                        tvEmptyState.setVisibility(
-                                View.GONE
-                        );
-
-                        rvOffers.setVisibility(
-                                View.VISIBLE
-                        );
-                    }
+                    updateUI();
                 });
+    }
+
+    private void updateUI() {
+
+        adapter.notifyDataSetChanged();
+
+        if (offerList.isEmpty()) {
+
+            layoutEmpty.setVisibility(View.VISIBLE);
+            rvOffers.setVisibility(View.GONE);
+
+        } else {
+
+            layoutEmpty.setVisibility(View.GONE);
+            rvOffers.setVisibility(View.VISIBLE);
+
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        if (currentUserId != null) {
+        if (currentUserId != null && role != null) {
+
             loadOffers();
         }
     }
