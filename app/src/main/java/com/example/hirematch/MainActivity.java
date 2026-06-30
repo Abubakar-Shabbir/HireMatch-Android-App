@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
+//hi this is me i am working in this project mdmdmdm djdjdjd djjd
 public class MainActivity extends AppCompatActivity {
 
     @Override
