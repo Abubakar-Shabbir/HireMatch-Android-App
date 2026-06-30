@@ -35,6 +35,14 @@ android {
 }
 
 dependencies {
+    // 1. Import the Firebase BoM (Bill of Materials) to manage versions automatically
+    implementation(platform("com.google.firebase:firebase-bom:34.15.0"))
+
+    // 2. Add the official Firebase AI Logic dependency
+    implementation("com.google.firebase:firebase-ai-logic")
+
+    // 3. Add Kotlin Coroutines (needed to run network requests without freezing the UI)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
